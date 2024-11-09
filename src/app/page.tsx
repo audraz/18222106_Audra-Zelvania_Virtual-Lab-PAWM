@@ -6,7 +6,6 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { Source_Sans_3 } from 'next/font/google';
 
-// Pindahkan deklarasi font ke luar komponen
 const sourceSans3 = Source_Sans_3({ weight: ['400', '700'], subsets: ['latin'] });
 
 export default function Home() {

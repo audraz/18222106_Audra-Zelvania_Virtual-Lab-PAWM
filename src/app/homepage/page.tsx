@@ -20,18 +20,19 @@ const levels = [
 
 const HomePage = () => {
   const router = useRouter();
-  const pathname = usePathname(); 
+  const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
-  const [unlockedLevels, setUnlockedLevels] = useState([1]); 
+  const [unlockedLevels, setUnlockedLevels] = useState([1]); // Level yang terbuka
 
   const handleLevelClick = (level: number) => {
     if (unlockedLevels.includes(level)) {
-      router.push(`/level/${level}`);
+      router.push(`/level/${level}`); // Redirect ke halaman level
     }
   };
 
   return (
     <div className={styles["container"]}>
+      {/* Header */}
       <header className={styles["header"]}>
         <div className={styles["logo"]}>
           <Image src="/logo.png" alt="Logo" width={110} height={50} />
@@ -57,19 +58,20 @@ const HomePage = () => {
           </button>
         </nav>
         <div className={styles["menu"]}>
-  <button onClick={() => setMenuOpen(!menuOpen)} className={styles["menu-button"]}>
-    <FaBars />
-  </button>
-  {menuOpen && (
-    <div className={styles["menu-dropdown"]}>
-      <button onClick={() => router.push('/')} className={styles["menu-item"]}>
-        Logout
-      </button>
-    </div>
-  )}
-</div>
+          <button onClick={() => setMenuOpen(!menuOpen)} className={styles["menu-button"]}>
+            <FaBars />
+          </button>
+          {menuOpen && (
+            <div className={styles["menu-dropdown"]}>
+              <button onClick={() => router.push('/')} className={styles["menu-item"]}>
+                Logout
+              </button>
+            </div>
+          )}
+        </div>
       </header>
 
+      {/* Content */}
       <div className={styles["content"]}>
         {/* Welcome Card */}
         <div className={styles["welcome-card"]}>
@@ -92,9 +94,8 @@ const HomePage = () => {
                 className={`${styles["level-circle"]} ${
                   unlockedLevels.includes(level.level) ? "" : styles["locked"]
                 }`}
-                disabled={!unlockedLevels.includes(level.level)}
               >
-                {level.level} 
+                {level.level}
               </button>
               <span className={styles["level-title"]}>{level.title}</span>
             </div>
