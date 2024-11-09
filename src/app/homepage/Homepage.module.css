@@ -1,0 +1,338 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh; 
+  background-color: #FFFEFF;
+  font-family: 'Source Sans 3', sans-serif;
+  overflow: hidden; 
+}
+
+.content {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  height: 100vh; 
+  overflow: hidden; 
+  padding: 20px;
+}
+
+/* Header styles */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #ffffff;
+  color: black;
+  padding: 1rem 2rem;
+  border-bottom: 1px solid #ddd;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+}
+
+.nav {
+  display: flex;
+  gap: 30px;
+}
+
+.nav-button {
+  font-size: 1rem;
+  background: none;
+  border: none;
+  color: #006B49;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  position: relative; 
+  transition: color 0.3s;
+}
+
+.nav-button:hover {
+  color: #BDDFB5;
+}
+
+.nav-button-active {
+  font-weight: bold;
+}
+
+.nav-button-active::after {
+  content: "";
+  position: absolute;
+  bottom: -21px; 
+  left: 0;
+  right: 0;
+  height: 3px;
+  background-color: #006B49; 
+}
+
+/* Welcome Card */
+.welcome-card {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 45px;
+  max-width: 550px;
+  margin-right: 10px; 
+  margin-left: 90px;
+  margin-top: 30px;
+}
+
+.welcome-card h2 {
+  font-family: 'Italiana', serif; 
+  font-size: 1.8rem; 
+  font-weight: bold; 
+  margin-bottom: 10px;
+  color: #000000;
+}
+
+.welcome-card p {
+  font-size: 1rem;
+  line-height: 1.5;
+  color: #676767;
+  margin-bottom: 20px;
+}
+
+.get-started-button {
+  display: block; 
+  padding: 10px 20px;
+  font-size: 1rem;
+  font-weight: bold;
+  color: #fff;
+  background-color: #006B49;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin-top: 20px; 
+  margin-left: 35%;
+}
+
+.get-started-button:hover {
+  background-color: #004d38;
+}
+
+.roadmap-path {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  margin-top: 40px;
+  overflow-y: auto; 
+  height: 100vh;
+  padding-right: 10px; 
+  height: 100%;
+}
+
+.menu {
+  position: relative;
+}
+
+.menu-button {
+  font-size: 1.5rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #006B49;
+}
+
+.menu-dropdown {
+  position: absolute;
+  width: 150px;
+  border-radius: 10px;
+  top: 30px;
+  right: 0;
+  background: #ffffff;
+  border: 1px solid #ddd;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  padding: 10px;
+  z-index: 1000;
+}
+
+.menu-item {
+  background: none;
+  border: none;
+  color: #ff4d4f;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.menu-item:hover {
+  color: #793737;
+}
+
+.roadmap-path {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  margin-top: 40px;
+}
+
+.roadmap-level {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  margin-bottom: 50px;
+  width: 100%;
+}
+
+.level-circle {
+  width: 80px;
+  height: 80px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  background-color: #DE85C7; 
+  color: #fff;
+  font-size: 1.2rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.level-circle.locked {
+  background-color: #888; 
+  color: #ccc; 
+  cursor: not-allowed; 
+}
+
+.level-circle:hover {
+  transform: translateY(-2px); 
+}
+
+.level-circle.locked:hover {
+  transform: none; 
+}
+
+.level-title {
+  margin-top: 10px;
+  font-size: 0.9rem;
+  font-weight: normal;
+  color: #333;
+  text-align: center;
+}
+
+
+@media (max-width: 1024px) {
+  .content {
+    flex-direction: column; 
+    justify-content: flex-start;
+    align-items: center;
+    padding: 10px;
+    height: auto; 
+  }
+
+  .welcome-card {
+    margin: 20px auto; 
+    margin-left: 0; 
+    margin-right: 0; 
+    padding: 30px; 
+    max-width: 80%;
+  }
+
+  .roadmap-path {
+    margin-top: 20px; 
+    width: 100%;
+    padding-right: 0; 
+  }
+}
+
+@media (max-width: 768px) {
+  .header {
+    flex-direction: column; 
+    align-items: center;
+    text-align: center;
+  }
+
+  .nav {
+    flex: 2; 
+    justify-content: flex-end;
+    gap: 20px; 
+  }
+
+  .welcome-card {
+    padding: 20px;
+    max-width: 90%; 
+  }
+
+  .roadmap-path {
+    padding: 10px; 
+  }
+
+  .get-started-button {
+    margin-left: 0; 
+  }
+}
+
+@media (max-width: 480px) {
+  .header {
+    display: flex;
+    justify-content: space-between; 
+    align-items: center;
+    padding: 0.5rem 1rem; 
+  }
+
+  .logo {
+    display: none; 
+  }
+
+  .nav {
+    display: flex;
+    flex-grow: 1; 
+    align-items: center;
+    gap: 10px; 
+    justify-content: flex-start; 
+  }
+
+  .nav-button {
+    font-size: 0.8rem; 
+    padding: 5px 8px; 
+    flex-shrink: 0; 
+  }
+
+  .menu-button {
+    display: flex; 
+    align-items: center;
+    justify-content: center;
+    font-size: 1.8rem; 
+    margin-left: auto; 
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #006B49;
+  }
+
+  .welcome-card {
+    padding: 15px; 
+    font-size: 0.9rem; 
+  }
+
+  .welcome-card h2 {
+    font-size: 1.5rem; 
+  }
+
+  .roadmap-path {
+    padding: 5px; 
+  }
+
+  .level-circle {
+    width: 60px; 
+    height: 60px;
+    font-size: 1rem; 
+  }
+
+  .get-started-button {
+    padding: 8px 16px; 
+    font-size: 0.9rem; 
+  }
+}
+
+

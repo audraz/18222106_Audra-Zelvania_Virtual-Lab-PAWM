@@ -1,0 +1,162 @@
+@import url('https://fonts.googleapis.com/css2?family=Source+Serif+Pro:wght@400&family=Yeseva+One&display=swap');
+
+.container {
+  display: flex;
+  height: 100vh;
+  background-color: #FFFEF9;
+  font-family: 'Source Serif Pro', serif;
+}
+
+.welcomeSection {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #006B49;
+  padding: 1rem 2rem;
+  color: #333;
+  text-align: center;
+  max-width: 60%;
+  margin: 0 auto;
+}
+
+.welcomeTitle {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  color: #ffffff;
+  font-family: 'Yeseva One', serif;
+  max-width: 90%;
+}
+
+.welcomeMessage {
+  font-size: 1.2rem;
+  text-align: center;
+  max-width: 300px;
+  color: hsl(0, 0%, 100%);
+}
+
+.signupSection {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem;
+  width: 100%;
+  max-width: 650px;
+  margin: 0 auto;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.signupSection h1 {
+  font-family: 'Source Sans 3', sans-serif;
+  font-weight: 700;
+  font-size: 2.5rem;
+  color: #000000;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem;
+  width: 100%;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 100%;
+}
+
+.form label {
+  margin-top: 1rem;
+  font-size: 1rem;
+  color: #333;
+}
+
+.form input {
+  margin-top: 0.5rem;
+  padding: 0.75rem;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 15px;
+}
+
+.button {
+  margin-top: 1.5rem;
+  padding: 0.75rem;
+  font-size: 1rem;
+  color: white;
+  background-color: #006B49;
+  border: none;
+  border-radius: 15px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.button:hover {
+  background-color: #BDDFB5;
+  transform: translateY(-2px);
+}
+
+.signupPrompt {
+  margin-top: 1rem;
+  font-size: 1rem;
+  color: #333;
+  text-align: center;
+}
+
+.signupLink {
+  color: #DE85C7;
+  cursor: pointer;
+  text-decoration: underline;
+  transition: color 0.3s;
+}
+
+.signupLink:hover {
+  color: #D8C2F3;
+}
+
+/* Responsiveness */
+@media (max-width: 768px) {
+  .container {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+  }
+
+  .welcomeSection {
+    display: none;
+  }
+
+  .signupSection {
+    width: 100%;
+    padding: 1rem;
+  }
+
+  .form {
+    width: 90%;
+  }
+
+  .signupSection h1 {
+    font-size: 2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .welcomeTitle {
+    font-size: 1.8rem;
+  }
+
+  .welcomeMessage {
+    font-size: 1rem;
+  }
+}

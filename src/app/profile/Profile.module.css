@@ -1,0 +1,217 @@
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #ffffff;
+    color: black;
+    padding: 1rem 2rem;
+    border-bottom: 1px solid #ddd;
+    font-family: 'Source Sans 3', sans-serif;
+  }
+  
+  .logo {
+    display: flex;
+    align-items: center;
+  }
+  
+  .nav {
+    display: flex;
+    gap: 30px;
+  }
+  
+  .nav-button {
+    font-size: 1rem;
+    background: none;
+    border: none;
+    color: #006b49;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    position: relative;
+    transition: color 0.3s;
+  }
+  
+  .nav-button:hover {
+    color: #bddfb5;
+  }
+  
+  .nav-button-active {
+    font-weight: bold;
+  }
+  
+  .nav-button-active::after {
+    content: "";
+    position: absolute;
+    bottom: -21px;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background-color: #006b49;
+  }
+  
+  .menu {
+    position: relative;
+  }
+  
+  .menu-button {
+    font-size: 1.5rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #006B49;
+  }
+  
+  .menu-dropdown {
+    position: absolute;
+    width: 150px;
+    border-radius: 10px;
+    top: 30px;
+    right: 0;
+    background: #ffffff;
+    border: 1px solid #ddd;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    z-index: 1000;
+  }
+  
+  .menu-item {
+    background: none;
+    border: none;
+    color: #ff4d4f;
+    font-size: 1rem;
+    cursor: pointer;
+  }
+  
+  .menu-item:hover {
+    color: #793737;
+  }
+  
+  .profile-container {
+    max-width: 500px;
+    margin: 50px auto;
+    padding: 40px;
+    background: #ffffff;
+    border-radius: 20px;
+    border: 1px solid #ddd;
+    font-family: 'Source Sans 3', sans-serif;
+  }
+  
+  .title {
+    font-size: 1.8rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+    text-align: center;
+    color: #333;
+
+  }
+  
+  .form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+  
+  .label {
+    font-size: 1rem;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .input {
+    padding: 10px;
+    font-size: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 15px;
+  }
+  
+  .input:focus {
+    outline: none;
+    border-color: #006b49;
+    box-shadow: 0 0 4px rgba(0, 107, 73, 0.3);
+  }
+  
+  .save-button,
+  .back-button {
+    padding: 10px 20px;
+    font-size: 1rem;
+    font-weight: bold;
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+    margin-top: 10px;
+  }
+  
+  .save-button {
+    background: #006b49;
+    color: #fff;
+  }
+  
+  .save-button:hover {
+    background: #004d38;
+  }
+  
+  .back-button {
+    background: #ddd;
+    color: #333;
+  }
+  
+  .back-button:hover {
+    background: #ccc;
+  }
+  
+  @media (max-width: 768px) {
+    /* Navigasi di layar sedang (tablet) */
+    .nav {
+      flex-wrap: wrap; /* Bungkus tombol jika tidak cukup ruang */
+      gap: 15px; /* Kurangi jarak antar tombol */
+      justify-content: center; /* Pusatkan tombol */
+    }
+  
+    .nav-button {
+      font-size: 0.9rem; /* Perkecil tombol */
+      padding: 5px 10px; /* Sesuaikan padding */
+    }
+  }
+  
+  @media (max-width: 480px) {
+    /* Navigasi di layar kecil (ponsel) */
+    .header {
+      flex-direction: column; /* Header menjadi vertikal */
+      align-items: center;
+      padding: 10px;
+    }
+  
+    .logo {
+      display: none; /* Sembunyikan logo untuk hemat ruang */
+    }
+  
+    .nav {
+      flex-direction: column; /* Tumpuk tombol navigasi */
+      align-items: center;
+      gap: 10px; /* Kurangi jarak antar tombol */
+    }
+  
+    .menu-button {
+      margin-left: auto; /* Posisikan garis tiga di kanan atas */
+      font-size: 1.2rem;
+    }
+  
+    .nav-button {
+      font-size: 0.8rem; /* Perkecil ukuran tombol */
+      padding: 5px 8px; /* Kurangi padding */
+    }
+  
+    .menu-dropdown {
+      top: 40px;
+      right: 10px; /* Atur ulang posisi dropdown */
+      width: auto; /* Sesuaikan lebar dropdown */
+    }
+  }
+  
