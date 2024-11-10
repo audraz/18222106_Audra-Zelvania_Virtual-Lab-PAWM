@@ -1,19 +1,30 @@
 "use client";
 
+import { useRouter } from "next/navigation";
+import { Source_Sans_3 } from "next/font/google";
+import { logIn } from "../../../lib/auth"; // Pastikan path ini sesuai dengan lokasi file auth.ts Anda
 import styles from './Login.module.css';
-import { useRouter } from 'next/navigation';
-import { Source_Sans_3 } from 'next/font/google';
 
 // Inisialisasi font di luar komponen
-const sourceSans3 = Source_Sans_3({ weight: ['400', '700'], subsets: ['latin'] });
+const sourceSans3 = Source_Sans_3({ weight: ["400", "700"], subsets: ["latin"] });
 
 export default function Login() {
   const router = useRouter();
 
-  const handleLogin = (event: React.FormEvent) => {
+  const handleLogin = async (event: React.FormEvent) => {
     event.preventDefault();
-    // Handle login logic here
-    router.push('/homepage');
+
+    const email = (document.getElementById("email") as HTMLInputElement).value;
+    const password = (document.getElementById("password") as HTMLInputElement).value;
+
+    try {
+      await logIn(email, password);
+      alert("Login successful! Redirecting to homepage...");
+      router.push("/homepage");
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : "An unknown error occurred during login.";
+      alert(errorMessage);
+    }
   };
 
   return (
@@ -33,11 +44,11 @@ export default function Login() {
             <label htmlFor="password">Password</label>
             <input type="password" id="password" required />
 
-            <button type="submit" className={styles.button} onClick={handleLogin}>Log In</button>
+            <button type="submit" className={styles.button}>Log In</button>
           </form>
           <p className={styles.signupPrompt}>
             Don't have an account?{" "}
-            <span className={styles.signupLink} onClick={() => router.push('/signup')}>
+            <span className={styles.signupLink} onClick={() => router.push("/signup")}>
               Sign up here
             </span>
           </p>

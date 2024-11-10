@@ -1,19 +1,37 @@
 "use client";
 
+import { useRouter } from "next/navigation";
+import { Source_Sans_3, Yeseva_One } from "next/font/google";
+import { signUp } from "../../../lib/auth"; // Pastikan path ini sesuai dengan lokasi file auth.ts Anda
 import styles from './Signup.module.css';
-import { useRouter } from 'next/navigation';
-import { Source_Sans_3, Yeseva_One } from 'next/font/google';
 
 // Inisialisasi font
-const sourceSans3 = Source_Sans_3({ weight: ['400', '700'], subsets: ['latin'] });
-const yesevaOne = Yeseva_One({ weight: '400', subsets: ['latin'] });
+const sourceSans3 = Source_Sans_3({ weight: ["400", "700"], subsets: ["latin"] });
+const yesevaOne = Yeseva_One({ weight: "400", subsets: ["latin"] });
 
 export default function Signup() {
   const router = useRouter();
 
-  const handleSignup = (event: React.FormEvent) => {
+  const handleSignup = async (event: React.FormEvent) => {
     event.preventDefault();
-    router.push('/login'); 
+
+    const email = (document.getElementById("email") as HTMLInputElement).value;
+    const password = (document.getElementById("password") as HTMLInputElement).value;
+    const confirmPassword = (document.getElementById("confirmPassword") as HTMLInputElement).value;
+
+    if (password !== confirmPassword) {
+      alert("Passwords do not match!");
+      return;
+    }
+
+    try {
+      await signUp(email, password);
+      alert("Signup successful! Redirecting to homepage...");
+      router.push("/homepage");
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : "An unknown error occurred during sign-up.";
+      alert(errorMessage);
+    }
   };
 
   return (
@@ -30,10 +48,6 @@ export default function Signup() {
         </header>
         <main className={styles.main}>
           <form className={styles.form} onSubmit={handleSignup}>
-
-            <label htmlFor="name">Name</label>
-            <input type="text" id="name" required />
-
             <label htmlFor="email">Email</label>
             <input type="email" id="email" required />
 
@@ -47,7 +61,7 @@ export default function Signup() {
           </form>
           <p className={styles.loginPrompt}>
             Already have an account?{" "}
-            <span className={styles.loginLink} onClick={() => router.push('/login')}>
+            <span className={styles.loginLink} onClick={() => router.push("/login")}>
               Log In
             </span>
           </p>
