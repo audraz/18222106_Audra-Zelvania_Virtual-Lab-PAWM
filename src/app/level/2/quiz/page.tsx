@@ -5,11 +5,16 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import styles from "./Quiz2.module.css";
 
+type Answer = {
+  selected: number; 
+  feedback: string[]; 
+};
+
 const QuizPage = () => {
   const router = useRouter();
   const [progress, setProgress] = useState(50);
   const [currentQuestion, setCurrentQuestion] = useState(0);
-  const [answers, setAnswers] = useState({}); 
+  const [answers, setAnswers] = useState<Record<number, Answer>>({}); 
   const [showModal, setShowModal] = useState(false);
 
   const questions = [
@@ -28,10 +33,11 @@ const QuizPage = () => {
       id: 2,
       question: "Which of the following techniques is NOT used in descriptive writing?",
       options: [
-        "Sensory details", 
-        "Show, don’t tell", 
-        "Figurative language", 
-        "Listing random facts"],
+        "Sensory details",
+        "Show, don’t tell",
+        "Figurative language",
+        "Listing random facts",
+      ],
       correct: 4,
     },
     {
@@ -69,7 +75,7 @@ const QuizPage = () => {
     },
   ];
 
-  const handleOptionClick = (index) => {
+  const handleOptionClick = (index: number) => {
     const correctAnswer = questions[currentQuestion].correct - 1; 
     const newFeedback = Array(questions[currentQuestion].options.length).fill("");
 
@@ -150,7 +156,7 @@ const QuizPage = () => {
                   : ""
               }`}
               onClick={() => handleOptionClick(index)}
-              disabled={!!currentAnswer.feedback} 
+              disabled={!!currentAnswer.feedback}
             >
               {option}
             </button>
@@ -185,7 +191,7 @@ const QuizPage = () => {
             <h2>Congratulations!</h2>
             <p>You have completed Level 2!</p>
             <div className={styles["modal-buttons"]}>
-            <button
+              <button
                 onClick={handleReturnHome}
                 className={styles["home-button"]}
               >

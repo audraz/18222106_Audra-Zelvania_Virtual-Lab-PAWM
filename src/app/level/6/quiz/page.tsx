@@ -5,11 +5,16 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import styles from "./Quiz6.module.css";
 
+type Answer = {
+  selected: number; 
+  feedback: string[]; 
+};
+
 const QuizPage = () => {
   const router = useRouter();
   const [progress, setProgress] = useState(50);
   const [currentQuestion, setCurrentQuestion] = useState(0);
-  const [answers, setAnswers] = useState({}); 
+  const [answers, setAnswers] = useState<Record<number, Answer>>({}); 
   const [showModal, setShowModal] = useState(false);
 
   const questions = [
@@ -28,10 +33,11 @@ const QuizPage = () => {
       id: 2,
       question: "What is a common structure for a five-paragraph argumentative essay?",
       options: [
-        "Introduction, one body paragraph, and a conclusion", 
-        "Introduction, two body paragraphs, and a conclusion", 
-        "Introduction, three body paragraphs, and a conclusion", 
-        "Conclusion, three body paragraphs, and an introduction"],
+        "Introduction, one body paragraph, and a conclusion",
+        "Introduction, two body paragraphs, and a conclusion",
+        "Introduction, three body paragraphs, and a conclusion",
+        "Conclusion, three body paragraphs, and an introduction",
+      ],
       correct: 3,
     },
     {
@@ -69,7 +75,7 @@ const QuizPage = () => {
     },
   ];
 
-  const handleOptionClick = (index) => {
+  const handleOptionClick = (index: number) => {
     const correctAnswer = questions[currentQuestion].correct - 1; 
     const newFeedback = Array(questions[currentQuestion].options.length).fill("");
 
@@ -146,7 +152,7 @@ const QuizPage = () => {
                   : ""
               }`}
               onClick={() => handleOptionClick(index)}
-              disabled={!!currentAnswer.feedback} 
+              disabled={!!currentAnswer.feedback}
             >
               {option}
             </button>
@@ -181,7 +187,7 @@ const QuizPage = () => {
             <h2>Congratulations!</h2>
             <p>You have completed Level 6!</p>
             <div className={styles["modal-buttons"]}>
-            <button
+              <button
                 onClick={handleReturnHome}
                 className={styles["home-button"]}
               >

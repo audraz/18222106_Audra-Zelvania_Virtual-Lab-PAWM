@@ -5,11 +5,16 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import styles from "./Quiz.module.css";
 
+type Answer = {
+  selected: number; // Indeks jawaban yang dipilih
+  feedback: string[]; // Feedback untuk setiap opsi
+};
+
 const QuizPage = () => {
   const router = useRouter();
   const [progress, setProgress] = useState(50);
   const [currentQuestion, setCurrentQuestion] = useState(0);
-  const [answers, setAnswers] = useState({}); 
+  const [answers, setAnswers] = useState<Record<number, Answer>>({}); 
   const [showModal, setShowModal] = useState(false);
 
   const questions = [
@@ -43,8 +48,8 @@ const QuizPage = () => {
     },
   ];
 
-  const handleOptionClick = (index) => {
-    const correctAnswer = questions[currentQuestion].correct - 1; // Convert to 0-based index
+  const handleOptionClick = (index: number) => {
+    const correctAnswer = questions[currentQuestion].correct - 1; 
     const newFeedback = Array(questions[currentQuestion].options.length).fill("");
 
     if (index === correctAnswer) {
@@ -124,7 +129,7 @@ const QuizPage = () => {
                   : ""
               }`}
               onClick={() => handleOptionClick(index)}
-              disabled={!!currentAnswer.feedback} 
+              disabled={!!currentAnswer.feedback}
             >
               {option}
             </button>
@@ -159,7 +164,7 @@ const QuizPage = () => {
             <h2>Congratulations!</h2>
             <p>You have completed Level 1!</p>
             <div className={styles["modal-buttons"]}>
-            <button
+              <button
                 onClick={handleReturnHome}
                 className={styles["home-button"]}
               >
