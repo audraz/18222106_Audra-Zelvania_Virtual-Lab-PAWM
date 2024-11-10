@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
-import styles from "./Quiz.module.css";
+import styles from "./Quiz4.module.css";
 
 const QuizPage = () => {
   const router = useRouter();
@@ -15,29 +15,55 @@ const QuizPage = () => {
   const questions = [
     {
       id: 1,
-      question: "What is the main purpose of an academic essay?",
+      question: "What is the main purpose of an expository essay?",
       options: [
-        "To entertain the reader.",
-        "To persuade the reader of a position or perspective through arguments supported by evidence and analysis.",
-        "To critique other academic works.",
-        "To explain information very briefly.",
+        "To express personal opinions on a topic.",
+        "To argue for one side of an issue.",
+        "To provide a balanced explanation and detailed information about a topic.",
+        "To persuade the reader to take action.",
       ],
-      correct: 2,
+      correct: 3,
     },
     {
       id: 2,
-      question: "What is the first stage in the essay writing process?",
-      options: ["Writing.", "Revision.", "Preparation.", "Making a conclusion."],
+      question: "Which of the following best describes a thesis statement in an expository essay?",
+      options: [
+        "It argues one side of a debate.", 
+        "It expresses personal opinion.", 
+        "It is objective and uses statements like 'is.'", 
+        "It suggests what should happen regarding the topic."],
       correct: 3,
     },
     {
       id: 3,
-      question: "What should be done in the preparation stage?",
+      question: "Which type of paragraph is not suitable for the body of an expository essay?",
       options: [
-        "Making a conclusion and structuring arguments.",
-        "Structuring the essay with a clear outline.",
-        "Understanding the assignment, choosing a topic, and creating an initial thesis.",
-        "Checking grammar and formatting.",
+        "Description.",
+        "Definition.",
+        "Problem and solution.",
+        "Opinion and personal judgment.",
+      ],
+      correct: 4,
+    },
+    {
+      id: 4,
+      question: "What is included in the introduction of an expository essay?",
+      options: [
+        "A conclusion and judgment.",
+        "An evaluation of the topic.",
+        "An explanation of the thesis, topic relevance, and essay structure.",
+        "A list of opinions about the topic.",
+      ],
+      correct: 3,
+    },
+    {
+      id: 5,
+      question: "What should be avoided in an expository essay?",
+      options: [
+        "Providing a balanced, factual explanation.",
+        "Using objective language.",
+        "Stating opinions or taking a side.",
+        "Describing processes.",
       ],
       correct: 3,
     },
@@ -78,11 +104,11 @@ const QuizPage = () => {
   };
 
   const handleBack = () => {
-    router.push("/level/1");
+    router.push("/level/4");
   };
 
   const handleNextLevel = () => {
-    router.push("/level/2");
+    router.push("/level/5");
   };
 
   const handleReturnHome = () => {
@@ -108,7 +134,7 @@ const QuizPage = () => {
 
       {/* Quiz Content */}
       <div className={styles["quiz-container"]}>
-        <h1 className={styles["title"]}>Quiz: Introduction to Essay</h1>
+        <h1 className={styles["title"]}>Quiz: Expository Essay</h1>
         <div className={styles["question"]}>
           <p className={styles["question-text"]}>
             {questions[currentQuestion].question}
@@ -157,7 +183,7 @@ const QuizPage = () => {
         <div className={styles["modal"]}>
           <div className={styles["modal-content"]}>
             <h2>Congratulations!</h2>
-            <p>You have completed Level 1!</p>
+            <p>You have completed Level 4!</p>
             <div className={styles["modal-buttons"]}>
             <button
                 onClick={handleReturnHome}
@@ -169,7 +195,7 @@ const QuizPage = () => {
                 onClick={handleNextLevel}
                 className={styles["next-level-button"]}
               >
-                Go to Level 2
+                Go to Level 5
               </button>
             </div>
           </div>

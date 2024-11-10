@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
-import styles from "./Quiz.module.css";
+import styles from "./Quiz5.module.css";
 
 const QuizPage = () => {
   const router = useRouter();
@@ -15,36 +15,62 @@ const QuizPage = () => {
   const questions = [
     {
       id: 1,
-      question: "What is the main purpose of an academic essay?",
+      question: "What is the main purpose of a persuasive essay?",
       options: [
-        "To entertain the reader.",
-        "To persuade the reader of a position or perspective through arguments supported by evidence and analysis.",
-        "To critique other academic works.",
-        "To explain information very briefly.",
+        "To tell a story",
+        "To describe a scene",
+        "To convince the reader of a particular viewpoint",
+        "To entertain the audience",
       ],
-      correct: 2,
+      correct: 3,
     },
     {
       id: 2,
-      question: "What is the first stage in the essay writing process?",
-      options: ["Writing.", "Revision.", "Preparation.", "Making a conclusion."],
+      question: "Which of the following is NOT a key component of a persuasive essay?",
+      options: [
+        "Claim", 
+        "Evidence", 
+        "Character development", 
+        "Reasons"],
       correct: 3,
     },
     {
       id: 3,
-      question: "What should be done in the preparation stage?",
+      question: "Where is the main claim usually presented in a persuasive essay?",
       options: [
-        "Making a conclusion and structuring arguments.",
-        "Structuring the essay with a clear outline.",
-        "Understanding the assignment, choosing a topic, and creating an initial thesis.",
-        "Checking grammar and formatting.",
+        "In the conclusion",
+        "In the introduction",
+        "In the middle",
+        "In the counter-argument",
+      ],
+      correct: 2,
+    },
+    {
+      id: 4,
+      question: "What can be used to support reasons in a persuasive essay?",
+      options: [
+        "Personal feelings",
+        "Artistic expressions",
+        "Evidence, like facts or expert opinions",
+        "Unrelated anecdotes",
+      ],
+      correct: 3,
+    },
+    {
+      id: 5,
+      question: "What should be avoided in an expository essay?",
+      options: [
+        "'This is a persuasive essay.'",
+        "'I like traveling.'",
+        "'Are you feeling stressed and overwhelmed?'",
+        "'Traveling is good'",
       ],
       correct: 3,
     },
   ];
 
   const handleOptionClick = (index) => {
-    const correctAnswer = questions[currentQuestion].correct - 1; // Convert to 0-based index
+    const correctAnswer = questions[currentQuestion].correct - 1; 
     const newFeedback = Array(questions[currentQuestion].options.length).fill("");
 
     if (index === correctAnswer) {
@@ -78,11 +104,11 @@ const QuizPage = () => {
   };
 
   const handleBack = () => {
-    router.push("/level/1");
+    router.push("/level/5");
   };
 
   const handleNextLevel = () => {
-    router.push("/level/2");
+    router.push("/level/6");
   };
 
   const handleReturnHome = () => {
@@ -108,7 +134,7 @@ const QuizPage = () => {
 
       {/* Quiz Content */}
       <div className={styles["quiz-container"]}>
-        <h1 className={styles["title"]}>Quiz: Introduction to Essay</h1>
+        <h1 className={styles["title"]}>Quiz: Persuasive Essay</h1>
         <div className={styles["question"]}>
           <p className={styles["question-text"]}>
             {questions[currentQuestion].question}
@@ -157,7 +183,7 @@ const QuizPage = () => {
         <div className={styles["modal"]}>
           <div className={styles["modal-content"]}>
             <h2>Congratulations!</h2>
-            <p>You have completed Level 1!</p>
+            <p>You have completed Level 5!</p>
             <div className={styles["modal-buttons"]}>
             <button
                 onClick={handleReturnHome}
@@ -169,7 +195,7 @@ const QuizPage = () => {
                 onClick={handleNextLevel}
                 className={styles["next-level-button"]}
               >
-                Go to Level 2
+                Go to Level 6
               </button>
             </div>
           </div>

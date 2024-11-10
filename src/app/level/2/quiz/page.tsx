@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
-import styles from "./Quiz.module.css";
+import styles from "./Quiz2.module.css";
 
 const QuizPage = () => {
   const router = useRouter();
@@ -15,36 +15,62 @@ const QuizPage = () => {
   const questions = [
     {
       id: 1,
-      question: "What is the main purpose of an academic essay?",
+      question: "What is the main purpose of descriptive writing?",
       options: [
-        "To entertain the reader.",
-        "To persuade the reader of a position or perspective through arguments supported by evidence and analysis.",
-        "To critique other academic works.",
-        "To explain information very briefly.",
+        "To argue a point.",
+        "To create a vivid picture in the reader's mind.",
+        "To give information.",
+        "To tell a story.",
       ],
       correct: 2,
     },
     {
       id: 2,
-      question: "What is the first stage in the essay writing process?",
-      options: ["Writing.", "Revision.", "Preparation.", "Making a conclusion."],
-      correct: 3,
+      question: "Which of the following techniques is NOT used in descriptive writing?",
+      options: [
+        "Sensory details", 
+        "Show, don’t tell", 
+        "Figurative language", 
+        "Listing random facts"],
+      correct: 4,
     },
     {
       id: 3,
-      question: "What should be done in the preparation stage?",
+      question: "What does “show, don’t tell” mean in descriptive writing?",
       options: [
-        "Making a conclusion and structuring arguments.",
-        "Structuring the essay with a clear outline.",
-        "Understanding the assignment, choosing a topic, and creating an initial thesis.",
-        "Checking grammar and formatting.",
+        "Using actions and feelings instead of simple statements",
+        "Telling the reader the actions directly",
+        "Listing items in a story",
+        "Describing only what you see",
+      ],
+      correct: 1,
+    },
+    {
+      id: 4,
+      question: "Which is an example of figurative language?",
+      options: [
+        "The girl ran very fast.",
+        "The girl ran as fast as lightning.",
+        "The girl was fast.",
+        "The girl is a runner.",
+      ],
+      correct: 2,
+    },
+    {
+      id: 5,
+      question: "In the introduction, what technique can be used to grab the reader's attention?",
+      options: [
+        "Starting with a list",
+        "Adding a new fact in the conclusion",
+        "Using a hook, like an interesting fact or a rhetorical question",
+        "Describing every detail immediately",
       ],
       correct: 3,
     },
   ];
 
   const handleOptionClick = (index) => {
-    const correctAnswer = questions[currentQuestion].correct - 1; // Convert to 0-based index
+    const correctAnswer = questions[currentQuestion].correct - 1; 
     const newFeedback = Array(questions[currentQuestion].options.length).fill("");
 
     if (index === correctAnswer) {
@@ -78,11 +104,11 @@ const QuizPage = () => {
   };
 
   const handleBack = () => {
-    router.push("/level/1");
+    router.push("/level/2");
   };
 
   const handleNextLevel = () => {
-    router.push("/level/2");
+    router.push("/level/3");
   };
 
   const handleReturnHome = () => {
@@ -108,7 +134,7 @@ const QuizPage = () => {
 
       {/* Quiz Content */}
       <div className={styles["quiz-container"]}>
-        <h1 className={styles["title"]}>Quiz: Introduction to Essay</h1>
+        <h1 className={styles["title"]}>Quiz: Descriptive Essay</h1>
         <div className={styles["question"]}>
           <p className={styles["question-text"]}>
             {questions[currentQuestion].question}
@@ -157,7 +183,7 @@ const QuizPage = () => {
         <div className={styles["modal"]}>
           <div className={styles["modal-content"]}>
             <h2>Congratulations!</h2>
-            <p>You have completed Level 1!</p>
+            <p>You have completed Level 2!</p>
             <div className={styles["modal-buttons"]}>
             <button
                 onClick={handleReturnHome}
@@ -169,7 +195,7 @@ const QuizPage = () => {
                 onClick={handleNextLevel}
                 className={styles["next-level-button"]}
               >
-                Go to Level 2
+                Go to Level 3
               </button>
             </div>
           </div>

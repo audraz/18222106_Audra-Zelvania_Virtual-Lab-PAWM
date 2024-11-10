@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
-import styles from "./Quiz.module.css";
+import styles from "./Quiz3.module.css";
 
 const QuizPage = () => {
   const router = useRouter();
@@ -15,36 +15,62 @@ const QuizPage = () => {
   const questions = [
     {
       id: 1,
-      question: "What is the main purpose of an academic essay?",
+      question: "What is the main purpose of a narration essay?",
       options: [
-        "To entertain the reader.",
-        "To persuade the reader of a position or perspective through arguments supported by evidence and analysis.",
-        "To critique other academic works.",
-        "To explain information very briefly.",
+        "To record daily events in a diary format.",
+        "To tell a story that has a clear point or lesson.",
+        "To give a detailed description of an entire life.",
+        "To showcase fictional storytelling skills.",
       ],
       correct: 2,
     },
     {
       id: 2,
-      question: "What is the first stage in the essay writing process?",
-      options: ["Writing.", "Revision.", "Preparation.", "Making a conclusion."],
-      correct: 3,
+      question: "Which of the following is an example of a good topic for a narration essay?",
+      options: [
+        "How to make a birthday cake.", 
+        "Your fondest memory.", 
+        "A list of your favorite books.", 
+        "The most attractive movie star."],
+      correct: 2,
     },
     {
       id: 3,
-      question: "What should be done in the preparation stage?",
+      question: "What should a narration essay include?",
       options: [
-        "Making a conclusion and structuring arguments.",
-        "Structuring the essay with a clear outline.",
-        "Understanding the assignment, choosing a topic, and creating an initial thesis.",
-        "Checking grammar and formatting.",
+        "A moral at the end of the story.",
+        "An introduction, thesis, body, and conclusion.",
+        "Flashbacks to add suspense.",
+        "Lists of random memories",
+      ],
+      correct: 4,
+    },
+    {
+      id: 4,
+      question: "In what order should events be presented in a narration essay?",
+      options: [
+        "Alphabetical order.",
+        "Reverse order.",
+        "Chronological order.",
+        "By importance.",
       ],
       correct: 3,
+    },
+    {
+      id: 5,
+      question: "Why is it important to use transitional words in a narration essay?",
+      options: [
+        "To add humor to the story.",
+        "To show the sequence of events clearly.",
+        "To make the essay appear longer.",
+        "To list random memories.",
+      ],
+      correct: 2,
     },
   ];
 
   const handleOptionClick = (index) => {
-    const correctAnswer = questions[currentQuestion].correct - 1; // Convert to 0-based index
+    const correctAnswer = questions[currentQuestion].correct - 1; 
     const newFeedback = Array(questions[currentQuestion].options.length).fill("");
 
     if (index === correctAnswer) {
@@ -78,11 +104,11 @@ const QuizPage = () => {
   };
 
   const handleBack = () => {
-    router.push("/level/1");
+    router.push("/level/3");
   };
 
   const handleNextLevel = () => {
-    router.push("/level/2");
+    router.push("/level/4");
   };
 
   const handleReturnHome = () => {
@@ -108,7 +134,7 @@ const QuizPage = () => {
 
       {/* Quiz Content */}
       <div className={styles["quiz-container"]}>
-        <h1 className={styles["title"]}>Quiz: Introduction to Essay</h1>
+        <h1 className={styles["title"]}>Quiz: Narrative Essay</h1>
         <div className={styles["question"]}>
           <p className={styles["question-text"]}>
             {questions[currentQuestion].question}
@@ -157,7 +183,7 @@ const QuizPage = () => {
         <div className={styles["modal"]}>
           <div className={styles["modal-content"]}>
             <h2>Congratulations!</h2>
-            <p>You have completed Level 1!</p>
+            <p>You have completed Level 3!</p>
             <div className={styles["modal-buttons"]}>
             <button
                 onClick={handleReturnHome}
@@ -169,7 +195,7 @@ const QuizPage = () => {
                 onClick={handleNextLevel}
                 className={styles["next-level-button"]}
               >
-                Go to Level 2
+                Go to Level 4
               </button>
             </div>
           </div>

@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
-import styles from "./Quiz.module.css";
+import styles from "./Quiz6.module.css";
 
 const QuizPage = () => {
   const router = useRouter();
@@ -15,36 +15,62 @@ const QuizPage = () => {
   const questions = [
     {
       id: 1,
-      question: "What is the main purpose of an academic essay?",
+      question: "What is the purpose of an argumentative essay?",
       options: [
-        "To entertain the reader.",
-        "To persuade the reader of a position or perspective through arguments supported by evidence and analysis.",
-        "To critique other academic works.",
-        "To explain information very briefly.",
+        "To tell a story",
+        "To explore unrelated topics",
+        "To present and support a viewpoint with arguments and counter-arguments",
+        "To write a summary",
       ],
-      correct: 2,
+      correct: 3,
     },
     {
       id: 2,
-      question: "What is the first stage in the essay writing process?",
-      options: ["Writing.", "Revision.", "Preparation.", "Making a conclusion."],
+      question: "What is a common structure for a five-paragraph argumentative essay?",
+      options: [
+        "Introduction, one body paragraph, and a conclusion", 
+        "Introduction, two body paragraphs, and a conclusion", 
+        "Introduction, three body paragraphs, and a conclusion", 
+        "Conclusion, three body paragraphs, and an introduction"],
       correct: 3,
     },
     {
       id: 3,
-      question: "What should be done in the preparation stage?",
+      question: "What does analyzing the essay question help you determine?",
       options: [
-        "Making a conclusion and structuring arguments.",
-        "Structuring the essay with a clear outline.",
-        "Understanding the assignment, choosing a topic, and creating an initial thesis.",
-        "Checking grammar and formatting.",
+        "The answer to the question",
+        "The structure and requirements for the essay",
+        "The length of the introduction only",
+        "The exact words to use in the essay",
       ],
-      correct: 3,
+      correct: 2,
+    },
+    {
+      id: 4,
+      question: "Why is it helpful to plan an essay before writing?",
+      options: [
+        "To reduce the amount of writing needed",
+        "To ensure the arguments are organized and coherent",
+        "To avoid writing a conclusion",
+        "To make the essay shorter",
+      ],
+      correct: 2,
+    },
+    {
+      id: 5,
+      question: "What should each body paragraph begin with?",
+      options: [
+        "A counter-argument",
+        "A concluding statement",
+        "A random idea",
+        "A topic sentence summarizing the paragraph",
+      ],
+      correct: 4,
     },
   ];
 
   const handleOptionClick = (index) => {
-    const correctAnswer = questions[currentQuestion].correct - 1; // Convert to 0-based index
+    const correctAnswer = questions[currentQuestion].correct - 1; 
     const newFeedback = Array(questions[currentQuestion].options.length).fill("");
 
     if (index === correctAnswer) {
@@ -78,11 +104,7 @@ const QuizPage = () => {
   };
 
   const handleBack = () => {
-    router.push("/level/1");
-  };
-
-  const handleNextLevel = () => {
-    router.push("/level/2");
+    router.push("/level/6");
   };
 
   const handleReturnHome = () => {
@@ -108,7 +130,7 @@ const QuizPage = () => {
 
       {/* Quiz Content */}
       <div className={styles["quiz-container"]}>
-        <h1 className={styles["title"]}>Quiz: Introduction to Essay</h1>
+        <h1 className={styles["title"]}>Quiz: Argumentative Essay</h1>
         <div className={styles["question"]}>
           <p className={styles["question-text"]}>
             {questions[currentQuestion].question}
@@ -157,19 +179,13 @@ const QuizPage = () => {
         <div className={styles["modal"]}>
           <div className={styles["modal-content"]}>
             <h2>Congratulations!</h2>
-            <p>You have completed Level 1!</p>
+            <p>You have completed Level 6!</p>
             <div className={styles["modal-buttons"]}>
             <button
                 onClick={handleReturnHome}
                 className={styles["home-button"]}
               >
                 Back to Homepage
-              </button>
-              <button
-                onClick={handleNextLevel}
-                className={styles["next-level-button"]}
-              >
-                Go to Level 2
               </button>
             </div>
           </div>

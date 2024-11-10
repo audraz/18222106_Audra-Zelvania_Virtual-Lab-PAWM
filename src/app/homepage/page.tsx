@@ -22,11 +22,11 @@ const HomePage = () => {
   const router = useRouter();
   const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
-  const [unlockedLevels, setUnlockedLevels] = useState([1]); // Level yang terbuka
+  const [unlockedLevels, setUnlockedLevels] = useState([1]); 
 
   const handleLevelClick = (level: number) => {
     if (unlockedLevels.includes(level)) {
-      router.push(`/level/${level}`); // Redirect ke halaman level
+      router.push(`/level/${level}`); 
     }
   };
 
@@ -80,7 +80,7 @@ const HomePage = () => {
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus luctus urna sed urna ultricies ac tempor dui sagittis. 
             In condimentum facilisis porta. Sed nec diam eu diam mattis viverra. Nulla fringilla, orci ac euismod semper.
           </p>
-          <button onClick={() => router.push('/get-started')} className={styles["get-started-button"]}>
+          <button onClick={() => router.push('/level/1')} className={styles["get-started-button"]}>
             Get Started
           </button>
         </div>
