@@ -1,24 +1,57 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useRouter, usePathname } from "next/navigation";
+import { auth } from "../../../lib/firebaseConfig";
+import { updateUserName, updateUserEmail, updateUserPassword } from "../../../lib/auth";
 import { FaBars } from "react-icons/fa";
 import styles from "./Profile.module.css";
 import Image from "next/image";
 
 const ProfilePage = () => {
   const router = useRouter();
-  const pathname = usePathname(); // Mendapatkan URL saat ini
+  const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
 
+  // State untuk menyimpan data pengguna
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleSave = () => {
-    // Simulasikan penyimpanan pengaturan
-    console.log("Saved Profile:", { name, email, password });
-    alert("Profile updated successfully!");
+  // Ambil data pengguna saat ini ketika halaman dimuat
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      if (user) {
+        setName(user.displayName || ""); // Ambil displayName pengguna
+        setEmail(user.email || "");     // Ambil email pengguna
+      } else {
+        console.error("No user is logged in.");
+      }
+    });
+
+    return () => unsubscribe(); 
+  }, []);
+
+  const handleSave = async () => {
+    try {
+      if (name) {
+        const nameResult = await updateUserName(name);
+        console.log(nameResult);
+      }
+      if (email) {
+        const emailResult = await updateUserEmail(email);
+        console.log(emailResult);
+      }
+      if (password) {
+        const passwordResult = await updateUserPassword(password);
+        console.log(passwordResult);
+        setPassword(""); 
+      }
+      alert("Profile updated successfully!");
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : "An unknown error occurred.";
+      alert(errorMessage);
+    }
   };
 
   return (
@@ -94,7 +127,7 @@ const ProfilePage = () => {
               value={name}
               onChange={(e) => setName(e.target.value)}
               className={styles["input"]}
-              placeholder="User"
+              placeholder="Enter your name"
             />
           </div>
 
@@ -108,7 +141,7 @@ const ProfilePage = () => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               className={styles["input"]}
-              placeholder="user@mail.com"
+              placeholder="Enter your email"
             />
           </div>
 
@@ -122,7 +155,7 @@ const ProfilePage = () => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               className={styles["input"]}
-              placeholder="*******"
+              placeholder="Enter new password"
             />
           </div>
 
