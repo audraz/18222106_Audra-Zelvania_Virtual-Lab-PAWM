@@ -1,11 +1,12 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 import { FaBars } from 'react-icons/fa';
 import styles from './Homepage.module.css';
 import Image from 'next/image';
 import { Italiana } from 'next/font/google';
+import { auth } from '../../../lib/firebaseConfig'; 
 
 const italiana = Italiana({ weight: '400', subsets: ['latin'] });
 
@@ -22,11 +23,24 @@ const HomePage = () => {
   const router = useRouter();
   const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
-  const [unlockedLevels, setUnlockedLevels] = useState([1]); 
+  const [unlockedLevels, setUnlockedLevels] = useState([1]);
+  const [userName, setUserName] = useState("User"); 
+
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      if (user && user.displayName) {
+        setUserName(user.displayName);
+      } else {
+        console.error("No user is logged in or displayName is not set.");
+      }
+    });
+
+    return () => unsubscribe(); 
+  }, []);
 
   const handleLevelClick = (level: number) => {
     if (unlockedLevels.includes(level)) {
-      router.push(`/level/${level}`); 
+      router.push(`/level/${level}`);
     }
   };
 
@@ -75,7 +89,7 @@ const HomePage = () => {
       <div className={styles["content"]}>
         {/* Welcome Card */}
         <div className={styles["welcome-card"]}>
-          <h2 className={`${italiana.className}`}>Welcome, User!</h2>
+          <h2 className={`${italiana.className}`}>Welcome, {userName}!</h2>
           <p>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus luctus urna sed urna ultricies ac tempor dui sagittis. 
             In condimentum facilisis porta. Sed nec diam eu diam mattis viverra. Nulla fringilla, orci ac euismod semper.

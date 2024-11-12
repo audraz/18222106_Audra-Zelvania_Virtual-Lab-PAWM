@@ -14,7 +14,7 @@ const QuizPage = () => {
   const router = useRouter();
   const [progress, setProgress] = useState(50);
   const [currentQuestion, setCurrentQuestion] = useState(0);
-  const [answers, setAnswers] = useState<Record<number, Answer>>({}); 
+  const [answers, setAnswers] = useState<Record<number, Answer>>({});
   const [showModal, setShowModal] = useState(false);
 
   const questions = [
@@ -74,6 +74,15 @@ const QuizPage = () => {
       correct: 3,
     },
   ];
+
+  const calculateScore = () => {
+    return Object.keys(answers).reduce((score, questionIndex) => {
+      const questionId = parseInt(questionIndex);
+      const userAnswer = answers[questionId]?.selected;
+      const correctAnswer = questions[questionId].correct - 1;
+      return userAnswer === correctAnswer ? score + 1 : score;
+    }, 0);
+  };
 
   const handleOptionClick = (index: number) => {
     const correctAnswer = questions[currentQuestion].correct - 1; 
@@ -190,6 +199,9 @@ const QuizPage = () => {
           <div className={styles["modal-content"]}>
             <h2>Congratulations!</h2>
             <p>You have completed Level 4!</p>
+            <p>
+              Your score: {calculateScore()} / {questions.length}
+            </p>
             <div className={styles["modal-buttons"]}>
               <button
                 onClick={handleReturnHome}
