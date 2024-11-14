@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { Source_Sans_3, Yeseva_One } from "next/font/google";
-import { signUp } from "../../../lib/auth"; // Pastikan path ini sesuai dengan lokasi file auth.ts Anda
+import { signUp } from "../../../lib/auth"; 
 import styles from "./Signup.module.css";
 
 // Inisialisasi font

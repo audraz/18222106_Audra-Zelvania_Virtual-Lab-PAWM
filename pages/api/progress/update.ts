@@ -7,6 +7,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const { user_id, completed_level } = req.body;
 
     if (!user_id || completed_level === undefined) {
+      console.log("Missing user_id or completed_level");
       return res.status(400).json({ error: 'Missing user_id or completed_level in request body.' });
     }
 
@@ -15,13 +16,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       const userSnapshot = await getDoc(userDocRef);
 
       if (!userSnapshot.exists()) {
-        // Buat dokumen baru jika tidak ada
+        // Jika dokumen belum ada, buat dokumen baru
         const progress = {
           [`level_${completed_level}`]: true,
-          [`level_${completed_level + 1}`]: true,
+          [`level_${completed_level + 1}`]: true, // Buka level berikutnya
         };
 
-        console.log('Creating new progress:', progress);
+        console.log("Creating new progress:", progress);
         await setDoc(userDocRef, { progress });
 
         return res.status(201).json({
@@ -29,10 +30,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           progress,
         });
       } else {
-        // Update progress yang sudah ada
+        // Ambil progress pengguna saat ini
         const userProgress = userSnapshot.data()?.progress || {};
 
-        console.log('Current progress before update:', userProgress);
+        console.log("Current progress before update:", userProgress);
 
         // Update level yang selesai
         userProgress[`level_${completed_level}`] = true;
@@ -42,7 +43,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           userProgress[`level_${completed_level + 1}`] = true;
         }
 
-        console.log('Updated progress:', userProgress);
+        console.log("Updated progress to save:", userProgress);
+
         await updateDoc(userDocRef, { progress: userProgress });
 
         return res.status(200).json({

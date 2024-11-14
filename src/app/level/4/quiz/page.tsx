@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import styles from "./Quiz4.module.css";
+import { auth } from '../../../../../lib/firebaseConfig';
 
 type Answer = {
   selected: number; 
@@ -73,7 +74,7 @@ const QuizPage = () => {
       ],
       correct: 3,
     },
-  ];
+  ]; 
 
   const calculateScore = () => {
     return Object.keys(answers).reduce((score, questionIndex) => {
@@ -85,7 +86,7 @@ const QuizPage = () => {
   };
 
   const handleOptionClick = (index: number) => {
-    const correctAnswer = questions[currentQuestion].correct - 1; 
+    const correctAnswer = questions[currentQuestion].correct - 1;
     const newFeedback = Array(questions[currentQuestion].options.length).fill("");
 
     if (index === correctAnswer) {
@@ -122,12 +123,42 @@ const QuizPage = () => {
     router.push("/level/4");
   };
 
-  const handleNextLevel = () => {
-    router.push("/level/5");
-  };
-
   const handleReturnHome = () => {
     router.push("/homepage");
+  };
+
+  const handleFinishQuiz = async () => {
+    const user = auth.currentUser;
+
+    if (!user) {
+      console.error("No user is logged in!");
+      return;
+    }
+
+    console.log("Finishing quiz for user:", user.uid);
+
+    try {
+      const response = await fetch('/api/progress/update', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          user_id: user.uid,
+          completed_level: 4,
+        }),
+      });
+
+      const data = await response.json();
+      console.log("API Response:", data);
+
+      if (response.ok) {
+        console.log("Progress updated successfully!");
+        router.push('/homepage');
+      } else {
+        console.error("Failed to update progress:", data.error);
+      }
+    } catch (error) {
+      console.error("Error finishing quiz:", error);
+    }
   };
 
   const currentAnswer = answers[currentQuestion] || {};
@@ -185,7 +216,11 @@ const QuizPage = () => {
         )}
         {currentAnswer.feedback && (
           <button
-            onClick={handleNextQuestion}
+            onClick={
+              currentQuestion < questions.length - 1
+                ? handleNextQuestion
+                : handleFinishQuiz
+            }
             className={styles["next-button"]}
           >
             {currentQuestion < questions.length - 1 ? "Next" : "Finish Quiz"}
@@ -208,12 +243,6 @@ const QuizPage = () => {
                 className={styles["home-button"]}
               >
                 Back to Homepage
-              </button>
-              <button
-                onClick={handleNextLevel}
-                className={styles["next-level-button"]}
-              >
-                Go to Level 5
               </button>
             </div>
           </div>
