@@ -1,10 +1,9 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import styles from "./Quiz.module.css";
-import { auth } from "../../../../../lib/firebaseConfig";
 
 type Answer = {
   selected: number;
@@ -13,10 +12,11 @@ type Answer = {
 
 const QuizPage = () => {
   const router = useRouter();
-  const [progress, setProgress] = useState(50);
+  const [progress, setProgress] = useState(0); 
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [answers, setAnswers] = useState<Record<number, Answer>>({});
   const [showModal, setShowModal] = useState(false);
+  const [quizCompleted, setQuizCompleted] = useState(false);
 
   const questions = [
     {
@@ -49,6 +49,23 @@ const QuizPage = () => {
     },
   ];
 
+  const progressIncrement = 100 / questions.length; 
+
+  const saveQuizProgressToLocal = () => {
+    const progressData = {
+      currentQuestion,
+      progress,
+      answers,
+      quizCompleted,
+    };
+    localStorage.setItem("quiz_progress_level_1", JSON.stringify(progressData));
+  };
+
+  const getQuizProgressFromLocal = () => {
+    const data = localStorage.getItem("quiz_progress_level_1");
+    return data ? JSON.parse(data) : null;
+  };
+
   const calculateScore = () => {
     return Object.keys(answers).reduce((score, questionIndex) => {
       const questionId = parseInt(questionIndex);
@@ -69,74 +86,95 @@ const QuizPage = () => {
       newFeedback[correctAnswer] = "correct";
     }
 
-    setAnswers({
+    const updatedAnswers = {
       ...answers,
       [currentQuestion]: { selected: index, feedback: newFeedback },
-    });
+    };
+
+    setAnswers(updatedAnswers);
+
+    saveQuizProgressToLocal();
   };
 
   const handleNextQuestion = () => {
     if (currentQuestion < questions.length - 1) {
       setCurrentQuestion(currentQuestion + 1);
-      setProgress(progress + 10);
+
+      if (!quizCompleted) {
+        setProgress((prevProgress) => Math.min(prevProgress + progressIncrement, 100));
+      }
+
+      saveQuizProgressToLocal();
     } else {
-      setProgress(100);
+      setProgress(100); 
+      setQuizCompleted(true);
       setShowModal(true);
+      saveQuizProgressToLocal();
     }
+  };
+
+  const handleFinishQuiz = () => {
+    setShowModal(true); 
+    setQuizCompleted(true);
+
+    setProgress(100);
+
+    saveQuizProgressToLocal();
   };
 
   const handlePreviousQuestion = () => {
     if (currentQuestion > 0) {
       setCurrentQuestion(currentQuestion - 1);
-      setProgress(progress - 10);
+
+      if (!quizCompleted) {
+        setProgress((prevProgress) => Math.max(prevProgress - progressIncrement, 0));
+      }
+
+      saveQuizProgressToLocal();
     }
   };
 
   const handleBack = () => {
-    router.push("/level/1");
+    router.push("/homepage");
   };
 
   const handleReturnHome = () => {
     router.push("/homepage");
   };
 
-  const handleFinishQuiz = async () => {
-    const user = auth.currentUser;
+  const resetQuiz = () => {
+    setCurrentQuestion(0);
+    setProgress(0);
+    setAnswers({});
+    setShowModal(false);
+    setQuizCompleted(false);
 
-    if (!user) {
-      console.error("No user is logged in!");
-      return;
-    }
+    localStorage.removeItem("quiz_progress_level_1");
 
-    try {
-      const response = await fetch("/api/progress/update", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          user_id: user.uid,
-          completed_level: 1,
-        }),
-      });
-
-      const data = await response.json();
-      console.log("API Response:", data);
-
-      if (response.ok) {
-        console.log("Progress updated successfully!");
-        setShowModal(true);
-      } else {
-        console.error("Failed to update progress:", data.error);
-      }
-    } catch (error) {
-      console.error("Error finishing quiz:", error);
-    }
+    saveQuizProgressToLocal();
   };
+
+  useEffect(() => {
+    const savedProgress = getQuizProgressFromLocal();
+    if (savedProgress) {
+      setAnswers(savedProgress.answers || {});
+      setQuizCompleted(savedProgress.quizCompleted || false);
+
+      setCurrentQuestion(0);
+
+      if (savedProgress.quizCompleted) {
+        setProgress(100);
+        console.log("Quiz completed, progress set to 100%");
+      } else {
+        setProgress(0); 
+      }
+    }
+  }, []);
 
   const currentAnswer = answers[currentQuestion] || {};
 
   return (
     <div className={styles["container"]}>
-      {/* Header */}
       <div className={styles["header"]}>
         <button onClick={handleBack} className={styles["back-button"]}>
           <Image src="/back.png" alt="Back" width={24} height={24} />
@@ -149,7 +187,6 @@ const QuizPage = () => {
         </div>
       </div>
 
-      {/* Quiz Content */}
       <div className={styles["quiz-container"]}>
         <h1 className={styles["title"]}>Quiz: Introduction to Essay</h1>
         <div className={styles["question"]}>
@@ -175,7 +212,6 @@ const QuizPage = () => {
         </div>
       </div>
 
-      {/* Navigation Buttons */}
       <div className={styles["navigation"]}>
         {currentQuestion > 0 && (
           <button
@@ -199,12 +235,11 @@ const QuizPage = () => {
         )}
       </div>
 
-      {/* Modal */}
       {showModal && (
         <div className={styles["modal"]}>
           <div className={styles["modal-content"]}>
             <h2>Congratulations!</h2>
-            <p>You have completed Level 1!</p>
+            <p>Yay, you have completed Level 1!</p>
             <p>
               Your score: {calculateScore()} / {questions.length}
             </p>
@@ -219,7 +254,13 @@ const QuizPage = () => {
                 onClick={() => router.push("/level/2")}
                 className={styles["next-level-button"]}
               >
-                Proceed to Level 2
+                Go to Level 2
+              </button>
+              <button
+                onClick={resetQuiz}
+                className={styles["retry-button"]}
+              >
+                Retry Quiz
               </button>
             </div>
           </div>

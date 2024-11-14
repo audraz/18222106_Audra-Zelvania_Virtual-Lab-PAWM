@@ -175,9 +175,11 @@
 }
 
 .modal-content h2 {
-  font-size: 1.8rem;
-  color: #006b49;
+  font-size: 2rem;
+  color: #006B49;
   margin-bottom: 10px;
+  font-family: 'Yeseva One', serif;
+  font-weight: 600; 
 }
 
 .modal-content p {
@@ -197,7 +199,7 @@
   padding: 10px 20px;
   font-size: 1rem;
   color: #fff;
-  background-color: #006b49;
+  background-color: #006B49;
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -206,5 +208,20 @@
 
 .next-level-button:hover,
 .home-button:hover {
-  background-color: #004d38;
+  background-color: #9ABC92;
+}
+
+.retry-button {
+  padding: 10px 20px;
+  font-size: 1rem;
+  color: #fff;
+  background-color: #006B49; 
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.retry-button:hover {
+  background-color: #9ABC92; 
 }
