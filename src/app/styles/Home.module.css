@@ -64,6 +64,7 @@
 .about p {
   font-size: 1.15rem;
   max-width: 600px; 
+  color: black;
 }
 
 .footer {

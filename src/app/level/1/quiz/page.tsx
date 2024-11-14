@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import styles from "./Quiz.module.css";
+import { auth } from '../../../../../lib/firebaseConfig';
 
 type Answer = {
   selected: number;
@@ -47,24 +48,24 @@ const QuizPage = () => {
       ],
       correct: 3,
     },
-  ];
+  ];  
 
   const progressIncrement = 100 / questions.length; 
 
-  const saveQuizProgressToLocal = () => {
+  const saveQuizProgressToLocal = (userId: string) => {
     const progressData = {
       currentQuestion,
       progress,
       answers,
       quizCompleted,
     };
-    localStorage.setItem("quiz_progress_level_1", JSON.stringify(progressData));
+    localStorage.setItem(`quiz_progress_level_1_${userId}`, JSON.stringify(progressData));
   };
-
-  const getQuizProgressFromLocal = () => {
-    const data = localStorage.getItem("quiz_progress_level_1");
+  
+  const getQuizProgressFromLocal = (userId: string) => {
+    const data = localStorage.getItem(`quiz_progress_level_1_${userId}`);
     return data ? JSON.parse(data) : null;
-  };
+  };  
 
   const calculateScore = () => {
     return Object.keys(answers).reduce((score, questionIndex) => {
@@ -93,7 +94,8 @@ const QuizPage = () => {
 
     setAnswers(updatedAnswers);
 
-    saveQuizProgressToLocal();
+    const user = auth.currentUser;
+    if (user) saveQuizProgressToLocal(user.uid);
   };
 
   const handleNextQuestion = () => {
@@ -104,22 +106,60 @@ const QuizPage = () => {
         setProgress((prevProgress) => Math.min(prevProgress + progressIncrement, 100));
       }
 
-      saveQuizProgressToLocal();
+      const user = auth.currentUser;
+      if (user) saveQuizProgressToLocal(user.uid);
     } else {
       setProgress(100); 
       setQuizCompleted(true);
       setShowModal(true);
-      saveQuizProgressToLocal();
+
+      const user = auth.currentUser;
+      if (user) saveQuizProgressToLocal(user.uid);
     }
   };
 
-  const handleFinishQuiz = () => {
-    setShowModal(true); 
-    setQuizCompleted(true);
-
-    setProgress(100);
-
-    saveQuizProgressToLocal();
+  const handleFinishQuiz = async () => {
+    const user = auth.currentUser;
+  
+    if (!user) {
+      console.error("No user is logged in!");
+      return;
+    }
+  
+    console.log("Finishing quiz for user:", user.uid);
+  
+    try {
+      const response = await fetch('/api/progress/update', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          user_id: user.uid,
+          completed_level: 1, 
+        }),
+      });
+  
+      const data = await response.json();
+      console.log("API Response:", data);
+  
+      if (response.ok) {
+        console.log("Progress updated successfully!");
+        
+        const userProgress = JSON.parse(localStorage.getItem(`user_progress_${user.uid}`) || "{}");
+        userProgress.level_1 = true;
+        userProgress.level_2 = true;
+        localStorage.setItem(`user_progress_${user.uid}`, JSON.stringify(userProgress));
+  
+        setShowModal(true); 
+        setQuizCompleted(true);
+        setProgress(100);
+      } else {
+        console.error("Failed to update progress:", data.error);
+      }
+    } catch (error) {
+      console.error("Error finishing quiz:", error);
+    }
+  
+    saveQuizProgressToLocal(user.uid);
   };
 
   const handlePreviousQuestion = () => {
@@ -130,12 +170,13 @@ const QuizPage = () => {
         setProgress((prevProgress) => Math.max(prevProgress - progressIncrement, 0));
       }
 
-      saveQuizProgressToLocal();
+      const user = auth.currentUser;
+      if (user) saveQuizProgressToLocal(user.uid);
     }
   };
 
   const handleBack = () => {
-    router.push("/homepage");
+    router.push("/level/1");
   };
 
   const handleReturnHome = () => {
@@ -149,24 +190,29 @@ const QuizPage = () => {
     setShowModal(false);
     setQuizCompleted(false);
 
-    localStorage.removeItem("quiz_progress_level_1");
+    const user = auth.currentUser;
+    if (user) localStorage.removeItem(`quiz_progress_level_1_${user.uid}`);
 
-    saveQuizProgressToLocal();
+    const userId = auth.currentUser?.uid;
+    if (userId) saveQuizProgressToLocal(userId);
   };
 
   useEffect(() => {
-    const savedProgress = getQuizProgressFromLocal();
-    if (savedProgress) {
-      setAnswers(savedProgress.answers || {});
-      setQuizCompleted(savedProgress.quizCompleted || false);
+    const user = auth.currentUser;
 
-      setCurrentQuestion(0);
+    if (user) {
+      const savedProgress = getQuizProgressFromLocal(user.uid);
+      if (savedProgress) {
+        setAnswers(savedProgress.answers || {});
+        setQuizCompleted(savedProgress.quizCompleted || false);
+        setCurrentQuestion(0);
 
-      if (savedProgress.quizCompleted) {
-        setProgress(100);
-        console.log("Quiz completed, progress set to 100%");
-      } else {
-        setProgress(0); 
+        if (savedProgress.quizCompleted) {
+          setProgress(100);
+          console.log("Quiz completed, progress set to 100%");
+        } else {
+          setProgress(0); 
+        }
       }
     }
   }, []);

@@ -7,6 +7,7 @@ import { updateUserName, updateUserEmail, updateUserPassword } from "../../../li
 import { FaBars } from "react-icons/fa";
 import styles from "./Profile.module.css";
 import Image from "next/image";
+import { signOut } from "firebase/auth"; // Import signOut dari Firebase
 
 const ProfilePage = () => {
   const router = useRouter();
@@ -26,14 +27,22 @@ const ProfilePage = () => {
         setEmail(user.email || "");     // Ambil email pengguna
       } else {
         console.error("No user is logged in.");
+        router.push("/login"); // Arahkan ke halaman login jika pengguna tidak terautentikasi
       }
     });
 
     return () => unsubscribe(); 
-  }, []);
+  }, [router]);
 
   const handleSave = async () => {
     try {
+      // Validasi jika field kosong
+      if (!name && !email && !password) {
+        alert("Please make some changes before saving.");
+        return;
+      }
+
+      // Update hanya field yang terisi
       if (name) {
         const nameResult = await updateUserName(name);
         console.log(nameResult);
@@ -47,10 +56,20 @@ const ProfilePage = () => {
         console.log(passwordResult);
         setPassword(""); 
       }
+
       alert("Profile updated successfully!");
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : "An unknown error occurred.";
       alert(errorMessage);
+    }
+  };
+
+  const handleLogout = async () => {
+    try {
+      await signOut(auth);  // Logout pengguna
+      router.push("/login"); // Arahkan ke halaman login setelah logout
+    } catch (error) {
+      alert("Error during logout: " + (error instanceof Error ? error.message : "An unknown error occurred."));
     }
   };
 
@@ -103,7 +122,7 @@ const ProfilePage = () => {
           {menuOpen && (
             <div className={styles["menu-dropdown"]}>
               <button
-                onClick={() => router.push("/")}
+                onClick={handleLogout}
                 className={styles["menu-item"]}
               >
                 Logout

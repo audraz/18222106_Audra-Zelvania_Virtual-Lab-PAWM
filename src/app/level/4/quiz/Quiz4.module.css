@@ -4,6 +4,8 @@
   padding: 20px;
   font-family: 'Source Sans 3', sans-serif;
   position: relative; 
+  background-color: white;
+  min-height: 100vh;
 }
 
 .header {
@@ -81,6 +83,7 @@ border: 1px solid #ddd;
 border-radius: 5px;
 cursor: pointer;
 transition: background-color 0.3s;
+color: #333;
 }
 
 .option:hover {
@@ -175,9 +178,11 @@ box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .modal-content h2 {
-font-size: 1.8rem;
-color: #006b49;
+font-size: 2rem;
+color: #DE85C7;
 margin-bottom: 10px;
+font-family: 'Italiana', serif;
+font-weight: 600; 
 }
 
 .modal-content p {
@@ -197,7 +202,7 @@ gap: 10px;
 padding: 10px 20px;
 font-size: 1rem;
 color: #fff;
-background-color: #006b49;
+background-color: #006B49;
 border: none;
 border-radius: 5px;
 cursor: pointer;
@@ -206,5 +211,20 @@ transition: background-color 0.3s;
 
 .next-level-button:hover,
 .home-button:hover {
-background-color: #004d38;
+background-color: #9ABC92;
+}
+
+.retry-button {
+padding: 10px 20px;
+font-size: 1rem;
+color: #fff;
+background-color: #006B49; 
+border: none;
+border-radius: 5px;
+cursor: pointer;
+transition: background-color 0.3s;
+}
+
+.retry-button:hover {
+background-color: #9ABC92; 
 }

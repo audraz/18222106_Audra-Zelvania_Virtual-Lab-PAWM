@@ -4,6 +4,8 @@
     padding: 20px;
     font-family: 'Source Sans 3', sans-serif;
     position: relative; 
+    background-color: white;
+    min-height: 100vh;
   }
   
   .header {
@@ -81,6 +83,7 @@
   border-radius: 5px;
   cursor: pointer;
   transition: background-color 0.3s;
+  color: #333;
 }
 
 .option:hover {
@@ -176,9 +179,9 @@
 
 .modal-content h2 {
   font-size: 2rem;
-  color: #006B49;
+  color: #DE85C7;
   margin-bottom: 10px;
-  font-family: 'Yeseva One', serif;
+  font-family: 'Italiana', serif;
   font-weight: 600; 
 }
 
