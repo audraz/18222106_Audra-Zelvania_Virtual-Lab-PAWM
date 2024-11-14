@@ -1,32 +1,33 @@
 "use client";
 
-import React, { useState, useEffect } from 'react';
-import { useRouter, usePathname } from 'next/navigation';
-import { FaBars } from 'react-icons/fa';
-import styles from './Homepage.module.css';
-import Image from 'next/image';
-import { Italiana } from 'next/font/google';
-import { auth } from '../../../lib/firebaseConfig'; 
+import React, { useState, useEffect } from "react";
+import { useRouter, usePathname } from "next/navigation";
+import { FaBars } from "react-icons/fa";
+import styles from "./Homepage.module.css";
+import Image from "next/image";
+import { Italiana } from "next/font/google";
+import { auth } from "../../../lib/firebaseConfig";
 
-const italiana = Italiana({ weight: '400', subsets: ['latin'] });
+const italiana = Italiana({ weight: "400", subsets: ["latin"] });
 
 const levels = [
-  { level: 1, title: "Introduction to Essay", unlocked: true },
-  { level: 2, title: "Descriptive Essay", unlocked: false },
-  { level: 3, title: "Narrative Essay", unlocked: false },
-  { level: 4, title: "Expository Essay", unlocked: false },
-  { level: 5, title: "Persuasive Essay", unlocked: false },
-  { level: 6, title: "Argumentative Essay", unlocked: false },
+  { level: 1, title: "Introduction to Essay" },
+  { level: 2, title: "Descriptive Essay" },
+  { level: 3, title: "Narrative Essay" },
+  { level: 4, title: "Expository Essay" },
+  { level: 5, title: "Persuasive Essay" },
+  { level: 6, title: "Argumentative Essay" },
 ];
 
 const HomePage = () => {
   const router = useRouter();
   const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
-  const [unlockedLevels, setUnlockedLevels] = useState([1]);
-  const [userName, setUserName] = useState("User"); 
+  const [unlockedLevels, setUnlockedLevels] = useState<number[]>([1]); // Default: Level 1 terbuka
+  const [userName, setUserName] = useState("User");
 
   useEffect(() => {
+    // Check user authentication state
     const unsubscribe = auth.onAuthStateChanged((user) => {
       if (user && user.displayName) {
         setUserName(user.displayName);
@@ -35,8 +36,43 @@ const HomePage = () => {
       }
     });
 
-    return () => unsubscribe(); 
+    return () => unsubscribe();
   }, []);
+
+  useEffect(() => {
+    const fetchProgress = async (userId: string) => {
+      try {
+        const response = await fetch(`/api/progress/get?user_id=${userId}`);
+        const data = await response.json();
+  
+        console.log("Fetched progress:", data.progress);
+  
+        if (response.ok) {
+          const unlocked = Object.keys(data.progress)
+            .filter((key) => data.progress[key]) // Ambil level yang sudah terbuka
+            .map((key) => parseInt(key.split("_")[1], 10)); // Ambil angka level
+  
+          console.log("Unlocked levels:", unlocked);
+          setUnlockedLevels(unlocked);
+        } else {
+          console.error("Error fetching progress:", data.error);
+        }
+      } catch (error) {
+        console.error("Error fetching progress:", error);
+      }
+    };
+  
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      if (user) {
+        console.log("User logged in:", user.uid);
+        fetchProgress(user.uid);
+      } else {
+        console.error("No user is logged in.");
+      }
+    });
+  
+    return () => unsubscribe();
+  }, []);  
 
   const handleLevelClick = (level: number) => {
     if (unlockedLevels.includes(level)) {
@@ -53,31 +89,49 @@ const HomePage = () => {
         </div>
         <nav className={styles["nav"]}>
           <button
-            onClick={() => router.push('/homepage')}
+            onClick={() => router.push("/homepage")}
             className={`${styles["nav-button"]} ${
-              pathname === '/homepage' ? styles["nav-button-active"] : ''
+              pathname === "/homepage" ? styles["nav-button-active"] : ""
             }`}
           >
-            <Image src="/home.png" alt="Home" width={19} height={19} className={styles["icon"]} />
+            <Image
+              src="/home.png"
+              alt="Home"
+              width={19}
+              height={19}
+              className={styles["icon"]}
+            />
             Home
           </button>
           <button
-            onClick={() => router.push('/profile')}
+            onClick={() => router.push("/profile")}
             className={`${styles["nav-button"]} ${
-              pathname === '/profile' ? styles["nav-button-active"] : ''
+              pathname === "/profile" ? styles["nav-button-active"] : ""
             }`}
           >
-            <Image src="/profile.png" alt="Profile" width={14} height={14} className={styles["icon"]} />
+            <Image
+              src="/profile.png"
+              alt="Profile"
+              width={14}
+              height={14}
+              className={styles["icon"]}
+            />
             Profile
           </button>
         </nav>
         <div className={styles["menu"]}>
-          <button onClick={() => setMenuOpen(!menuOpen)} className={styles["menu-button"]}>
+          <button
+            onClick={() => setMenuOpen(!menuOpen)}
+            className={styles["menu-button"]}
+          >
             <FaBars />
           </button>
           {menuOpen && (
             <div className={styles["menu-dropdown"]}>
-              <button onClick={() => router.push('/')} className={styles["menu-item"]}>
+              <button
+                onClick={() => router.push("/")}
+                className={styles["menu-item"]}
+              >
                 Logout
               </button>
             </div>
@@ -91,10 +145,15 @@ const HomePage = () => {
         <div className={styles["welcome-card"]}>
           <h2 className={`${italiana.className}`}>Welcome, {userName}!</h2>
           <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus luctus urna sed urna ultricies ac tempor dui sagittis. 
-            In condimentum facilisis porta. Sed nec diam eu diam mattis viverra. Nulla fringilla, orci ac euismod semper.
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus
+            luctus urna sed urna ultricies ac tempor dui sagittis. In
+            condimentum facilisis porta. Sed nec diam eu diam mattis viverra.
+            Nulla fringilla, orci ac euismod semper.
           </p>
-          <button onClick={() => router.push('/level/1')} className={styles["get-started-button"]}>
+          <button
+            onClick={() => router.push("/level/1")}
+            className={styles["get-started-button"]}
+          >
             Get Started
           </button>
         </div>
@@ -108,6 +167,7 @@ const HomePage = () => {
                 className={`${styles["level-circle"]} ${
                   unlockedLevels.includes(level.level) ? "" : styles["locked"]
                 }`}
+                disabled={!unlockedLevels.includes(level.level)} // Disabled jika level belum terbuka
               >
                 {level.level}
               </button>
