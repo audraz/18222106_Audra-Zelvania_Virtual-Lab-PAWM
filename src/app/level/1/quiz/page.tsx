@@ -4,11 +4,11 @@ import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import styles from "./Quiz.module.css";
-import { auth } from '../../../../../lib/firebaseConfig';
+import { auth } from "../../../../../lib/firebaseConfig";
 
 type Answer = {
-  selected: number; 
-  feedback: string[]; 
+  selected: number;
+  feedback: string[];
 };
 
 const QuizPage = () => {
@@ -108,12 +108,10 @@ const QuizPage = () => {
       return;
     }
 
-    console.log("Finishing quiz for user:", user.uid);
-
     try {
-      const response = await fetch('/api/progress/update', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+      const response = await fetch("/api/progress/update", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           user_id: user.uid,
           completed_level: 1,
@@ -125,7 +123,7 @@ const QuizPage = () => {
 
       if (response.ok) {
         console.log("Progress updated successfully!");
-        router.push('/homepage');
+        setShowModal(true);
       } else {
         console.error("Failed to update progress:", data.error);
       }
@@ -216,6 +214,12 @@ const QuizPage = () => {
                 className={styles["home-button"]}
               >
                 Back to Homepage
+              </button>
+              <button
+                onClick={() => router.push("/level/2")}
+                className={styles["next-level-button"]}
+              >
+                Proceed to Level 2
               </button>
             </div>
           </div>
