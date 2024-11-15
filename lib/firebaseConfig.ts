@@ -1,6 +1,6 @@
-import { initializeApp } from 'firebase/app';
-import { getFirestore } from 'firebase/firestore';
-import { getAuth } from 'firebase/auth';
+import { initializeApp } from "firebase/app";
+import { getAuth } from "firebase/auth";
+import { getFirestore, doc, setDoc, getDoc } from 'firebase/firestore';
 
 // Konfigurasi Firebase
 const firebaseConfig = {
@@ -15,8 +15,10 @@ const firebaseConfig = {
 // Inisialisasi Firebase
 const app = initializeApp(firebaseConfig);
 
-// Ekspor Firestore dan Auth
+// Inisialisasi Firestore dan Auth
 const firestore = getFirestore(app);
+const db = firestore; // Alias untuk Firestore
 const auth = getAuth(app);
 
-export { firestore, auth };
+// Ekspor keduanya
+export { firestore, db, auth };

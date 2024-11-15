@@ -4,7 +4,9 @@ import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import styles from "./Quiz.module.css";
-import { auth } from '../../../../../lib/firebaseConfig';
+import { auth, firestore } from '../../../../../lib/firebaseConfig';
+import { doc, getDoc, setDoc } from "firebase/firestore";
+import { onAuthStateChanged } from "firebase/auth";
 
 type Answer = {
   selected: number;
@@ -18,6 +20,7 @@ const QuizPage = () => {
   const [answers, setAnswers] = useState<Record<number, Answer>>({});
   const [showModal, setShowModal] = useState(false);
   const [quizCompleted, setQuizCompleted] = useState(false);
+  const [userId, setUserId] = useState<string | null>(null);
 
   const questions = [
     {
@@ -52,20 +55,38 @@ const QuizPage = () => {
 
   const progressIncrement = 100 / questions.length; 
 
-  const saveQuizProgressToLocal = (userId: string) => {
+  const saveQuizProgressToFirestore = async (userId: string) => {
     const progressData = {
       currentQuestion,
       progress,
       answers,
       quizCompleted,
     };
-    localStorage.setItem(`quiz_progress_level_1_${userId}`, JSON.stringify(progressData));
+
+    try {
+      const progressRef = doc(firestore, "quizProgress", userId);
+      await setDoc(progressRef, progressData);
+    } catch (error) {
+      console.error("Error saving quiz progress to Firestore:", error);
+    }
   };
-  
-  const getQuizProgressFromLocal = (userId: string) => {
-    const data = localStorage.getItem(`quiz_progress_level_1_${userId}`);
-    return data ? JSON.parse(data) : null;
-  };  
+
+  const getQuizProgressFromFirestore = async (userId: string) => {
+    try {
+      const progressRef = doc(firestore, "quizProgress", userId);
+      const docSnap = await getDoc(progressRef);
+
+      if (docSnap.exists()) {
+        return docSnap.data();
+      } else {
+        console.log("No quiz progress found for this user.");
+        return null;
+      }
+    } catch (error) {
+      console.error("Error getting quiz progress from Firestore:", error);
+      return null;
+    }
+  };
 
   const calculateScore = () => {
     return Object.keys(answers).reduce((score, questionIndex) => {
@@ -94,8 +115,7 @@ const QuizPage = () => {
 
     setAnswers(updatedAnswers);
 
-    const user = auth.currentUser;
-    if (user) saveQuizProgressToLocal(user.uid);
+    if (userId) saveQuizProgressToFirestore(userId);
   };
 
   const handleNextQuestion = () => {
@@ -106,49 +126,40 @@ const QuizPage = () => {
         setProgress((prevProgress) => Math.min(prevProgress + progressIncrement, 100));
       }
 
-      const user = auth.currentUser;
-      if (user) saveQuizProgressToLocal(user.uid);
+      if (userId) saveQuizProgressToFirestore(userId);
     } else {
       setProgress(100); 
       setQuizCompleted(true);
       setShowModal(true);
 
-      const user = auth.currentUser;
-      if (user) saveQuizProgressToLocal(user.uid);
+      if (userId) saveQuizProgressToFirestore(userId);
     }
   };
 
   const handleFinishQuiz = async () => {
-    const user = auth.currentUser;
-  
-    if (!user) {
+    if (!userId) {
       console.error("No user is logged in!");
       return;
     }
-  
-    console.log("Finishing quiz for user:", user.uid);
-  
+
+    console.log("Finishing quiz for user:", userId);
+
     try {
       const response = await fetch('/api/progress/update', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          user_id: user.uid,
+          user_id: userId,
           completed_level: 1, 
         }),
       });
-  
+
       const data = await response.json();
       console.log("API Response:", data);
-  
+
       if (response.ok) {
         console.log("Progress updated successfully!");
-        
-        const userProgress = JSON.parse(localStorage.getItem(`user_progress_${user.uid}`) || "{}");
-        userProgress.level_1 = true;
-        userProgress.level_2 = true;
-        localStorage.setItem(`user_progress_${user.uid}`, JSON.stringify(userProgress));
-  
+
         setShowModal(true); 
         setQuizCompleted(true);
         setProgress(100);
@@ -158,8 +169,8 @@ const QuizPage = () => {
     } catch (error) {
       console.error("Error finishing quiz:", error);
     }
-  
-    saveQuizProgressToLocal(user.uid);
+
+    saveQuizProgressToFirestore(userId);
   };
 
   const handlePreviousQuestion = () => {
@@ -170,8 +181,7 @@ const QuizPage = () => {
         setProgress((prevProgress) => Math.max(prevProgress - progressIncrement, 0));
       }
 
-      const user = auth.currentUser;
-      if (user) saveQuizProgressToLocal(user.uid);
+      if (userId) saveQuizProgressToFirestore(userId);
     }
   };
 
@@ -183,38 +193,46 @@ const QuizPage = () => {
     router.push("/homepage");
   };
 
-  const resetQuiz = () => {
+  const resetQuiz = async () => {
     setCurrentQuestion(0);
     setProgress(0);
     setAnswers({});
     setShowModal(false);
     setQuizCompleted(false);
 
-    const user = auth.currentUser;
-    if (user) localStorage.removeItem(`quiz_progress_level_1_${user.uid}`);
-
-    const userId = auth.currentUser?.uid;
-    if (userId) saveQuizProgressToLocal(userId);
+    if (userId) {
+      // Simpan reset progress ke Firestore
+      await saveQuizProgressToFirestore(userId);
+    }
   };
 
   useEffect(() => {
-    const user = auth.currentUser;
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setUserId(user.uid);
+  
+        // Load progress dari Firestore
+        getQuizProgressFromFirestore(user.uid).then((savedProgress) => {
+          if (savedProgress) {
+            setAnswers(savedProgress.answers || {});
+            setQuizCompleted(savedProgress.quizCompleted || false);
 
-    if (user) {
-      const savedProgress = getQuizProgressFromLocal(user.uid);
-      if (savedProgress) {
-        setAnswers(savedProgress.answers || {});
-        setQuizCompleted(savedProgress.quizCompleted || false);
-        setCurrentQuestion(0);
-
-        if (savedProgress.quizCompleted) {
-          setProgress(100);
-          console.log("Quiz completed, progress set to 100%");
-        } else {
-          setProgress(0); 
-        }
+            // Set progress bar langsung ke 100% setiap kali ada saved progress
+            setProgress(100);
+          } else {
+            // Jika tidak ada progress, mulai dari 0
+            setProgress(0);
+          }
+  
+          // Mulai dari pertanyaan pertama untuk tampilan awal
+          setCurrentQuestion(0);
+        });
+      } else {
+        setUserId(null); // Clear user ID jika tidak terautentikasi
       }
-    }
+    });
+  
+    return () => unsubscribe();
   }, []);
 
   const currentAnswer = answers[currentQuestion] || {};

@@ -31,12 +31,6 @@ const Level4Page = () => {
             height={24} 
           />
         </button>
-        <div className={styles["progress-bar-container"]}>
-          <div
-            className={styles["progress-bar"]}
-            style={{ width: `${progress}%` }} 
-          ></div>
-        </div>
       </div>
 
       {/* Video Section */}
