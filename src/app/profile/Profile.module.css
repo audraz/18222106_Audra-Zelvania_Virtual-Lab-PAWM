@@ -1,30 +1,31 @@
+/* Container Styles */
 .container {
   display: flex;
   flex-direction: column;
-  height: 100vh; 
+  height: 100vh;
   background-color: #FFFEFF;
   font-family: 'Source Sans 3', sans-serif;
-  overflow: hidden; 
+  overflow: hidden;
 }
 
 .content {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  height: 100vh; 
-  overflow: hidden; 
+  height: 100vh;
+  overflow: hidden;
   padding: 20px;
 }
 
-/* Header styles */
+/* Header Styles */
 .header {
   display: flex;
-  justify-content: space-between; /* Sebarkan elemen di kedua sisi */
+  justify-content: space-between;
   align-items: center;
   background-color: #ffffff;
   color: black;
   padding: 1rem 2rem;
-  border-bottom: 1px solid #ddd; /* Garis bawah header */
+  border-bottom: 1px solid #ddd;
   position: relative;
 }
 
@@ -36,8 +37,8 @@
 .nav {
   display: flex;
   gap: 30px;
-  justify-content: center; /* Posisikan tombol di tengah */
-  flex: 1; /* Buat nav mengisi ruang di tengah */
+  justify-content: center;
+  flex: 1;
 }
 
 .nav-button {
@@ -50,7 +51,7 @@
   align-items: center;
   gap: 10px;
   position: relative;
-  padding-bottom: 8px; /* Tambahkan padding bawah untuk spasi dengan garis aktif */
+  padding-bottom: 8px;
   transition: color 0.3s;
 }
 
@@ -65,11 +66,11 @@
 .nav-button-active::after {
   content: "";
   position: absolute;
-  bottom: -11px; /* Sesuaikan posisi agar sejajar dengan garis bawah header */
+  bottom: -11px;
   left: 0;
   right: 0;
-  height: 2px; /* Ketebalan garis aktif */
-  background-color: #006B49; /* Warna garis aktif */
+  height: 2px;
+  background-color: #006B49;
 }
 
 .menu {
@@ -77,7 +78,7 @@
   align-items: center;
   justify-content: flex-end;
   position: absolute;
-  right: 20px; /* Pindahkan ke kanan */
+  right: 20px;
 }
 
 .menu-button {
@@ -88,7 +89,6 @@
   color: #006B49;
 }
 
-/* Dropdown menu */
 .menu-dropdown {
   position: absolute;
   width: 150px;
@@ -114,15 +114,41 @@
   color: #793737;
 }
 
-/* Profile & Form Styles */
+/* Profile Wrapper */
+.profile-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 90px; /* Jarak antara gambar dan form */
+  flex-wrap: wrap; /* Pastikan layout adaptif pada layar kecil */
+  max-width: 100%;
+  margin-top: 120px;
+}
+
+/* Profile Image Styles */
+.profile-image-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  max-width: 350px; /* Batas maksimal lebar */
+  max-height: 350px; /* Batas maksimal tinggi */
+  overflow: visible; /* Pastikan gambar tidak terpotong */
+}
+
+.profile-image {
+  width: 100%; /* Gambar memenuhi lebar container */
+  height: auto; /* Rasio gambar tetap */
+  object-fit: contain; /* Seluruh gambar terlihat */
+}
+
+/* Profile Form Styles */
 .profile-container {
-  max-width: 500px; /* Lebar default ditingkatkan dari 700px ke 750px */
-  width: 90%; /* Gunakan hingga 90% dari lebar layar jika memungkinkan */
-  margin: 50px auto;
-  padding: 40px;
+  flex: 1; /* Ambil ruang tersisa */
+  max-width: 500px;
   background: #ffffff;
+  padding: 20px;
   border-radius: 20px;
-  border: 1px solid #ddd;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .title {
@@ -165,48 +191,43 @@
   box-shadow: 0 0 4px rgba(0, 107, 73, 0.3);
 }
 
-.save-button,
-.back-button {
+.save-button {
   padding: 10px 20px;
   font-size: 1rem;
   font-weight: bold;
   border: none;
   border-radius: 15px;
   cursor: pointer;
-  margin-top: 10px;
-}
-
-.save-button {
   background: #006b49;
   color: #fff;
+  transition: background-color 0.3s;
 }
 
 .save-button:hover {
   background: #004d38;
 }
 
-.back-button {
-  background: #ddd;
-  color: #333;
-}
-
-.back-button:hover {
-  background: #ccc;
-}
-
-/* Responsiveness adjustments */
+/* Responsiveness */
 @media (max-width: 1024px) {
   .content {
-    flex-direction: column; 
+    flex-direction: column;
     justify-content: flex-start;
     align-items: center;
     padding: 10px;
-    height: auto; 
+    height: auto;
+  }
+
+  .profile-wrapper {
+    flex-direction: column; /* Stack gambar dan form secara vertikal */
+  }
+
+  .profile-image-container {
+    margin-bottom: 20px;
   }
 
   .profile-container {
-    max-width: 95%; /* Gunakan hingga 95% lebar layar untuk layar sedang */
-    padding: 30px;
+    max-width: 95%; /* Gunakan hingga 95% lebar layar */
+    padding: 20px;
   }
 }
 
@@ -217,11 +238,11 @@
   }
 
   .logo {
-    display: none; /* Sembunyikan logo pada layar kecil */
+    display: none;
   }
 
   .nav {
-    gap: 15px; 
+    gap: 15px;
     justify-content: center;
   }
 
@@ -231,12 +252,17 @@
   }
 
   .menu-button {
-    margin-left: auto; 
+    margin-left: auto;
+  }
+
+  .profile-wrapper {
+    flex-direction: column;
+    gap: 10px;
   }
 
   .profile-container {
-    max-width: 90%; /* Gunakan hingga 90% lebar layar untuk layar kecil */
-    padding: 20px;
+    max-width: 100%; /* Gunakan hingga 90% lebar layar */
+    padding: 15px;
   }
 }
 
@@ -244,11 +270,7 @@
   .header {
     flex-direction: column;
     align-items: center;
-    padding: 0.5rem 1rem; 
-  }
-
-  .logo {
-    display: none; 
+    padding: 0.5rem 1rem;
   }
 
   .nav {
@@ -267,8 +289,17 @@
     margin-left: auto;
   }
 
+  .profile-wrapper {
+    flex-direction: column;
+    gap: 10px;
+  }
+
   .profile-container {
-    max-width: 100%; /* Gunakan seluruh lebar layar pada layar kecil */
-    padding: 15px;
+    max-width: 100%; /* Gunakan seluruh lebar layar */
+    padding: 10px;
+  }
+
+  .profile-image {
+    display: none;
   }
 }

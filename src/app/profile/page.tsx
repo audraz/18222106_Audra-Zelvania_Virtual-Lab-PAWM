@@ -133,59 +133,73 @@ const ProfilePage = () => {
       </header>
 
       {/* Profile Form */}
-      <div className={styles["profile-container"]}>
-        <h1 className={styles["title"]}>Settings</h1>
-        <form className={styles["form"]}>
-          <div className={styles["form-group"]}>
-            <label htmlFor="name" className={styles["label"]}>
-              Name
-            </label>
-            <input
-              type="text"
-              id="name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              className={styles["input"]}
-              placeholder="Enter your name"
-            />
-          </div>
+      <div className={styles["profile-wrapper"]}>
+        {/* Profile Image */}
+        <div className={styles["profile-image-container"]}>
+          <Image
+            src="/profile-img.png"
+            alt="Profile Image"
+            width={400}
+            height={400}
+            className={styles["profile-image"]}
+          />
+        </div>
 
-          <div className={styles["form-group"]}>
-            <label htmlFor="email" className={styles["label"]}>
-              Email
-            </label>
-            <input
-              type="email"
-              id="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className={styles["input"]}
-              placeholder="Enter your email"
-            />
-          </div>
+        {/* Profile Form */}
+        <div className={styles["profile-container"]}>
+          <h1 className={styles["title"]}>Settings</h1>
+          <form className={styles["form"]}>
+            <div className={styles["form-group"]}>
+              <label htmlFor="name" className={styles["label"]}>
+                Name
+              </label>
+              <input
+                type="text"
+                id="name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                className={styles["input"]}
+                placeholder="Enter your name"
+              />
+            </div>
 
-          <div className={styles["form-group"]}>
-            <label htmlFor="password" className={styles["label"]}>
-              Password
-            </label>
-            <input
-              type="password"
-              id="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className={styles["input"]}
-              placeholder="Enter new password"
-            />
-          </div>
+            <div className={styles["form-group"]}>
+              <label htmlFor="email" className={styles["label"]}>
+                Email
+              </label>
+              <input
+                type="email"
+                id="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className={styles["input"]}
+                placeholder="Enter your email"
+              />
+            </div>
 
-          <button
-            type="button"
-            onClick={handleSave}
-            className={styles["save-button"]}
-          >
-            Save Changes
-          </button>
-        </form>
+            <div className={styles["form-group"]}>
+              <label htmlFor="password" className={styles["label"]}>
+                Password
+              </label>
+              <input
+                type="password"
+                id="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className={styles["input"]}
+                placeholder="Enter new password"
+              />
+            </div>
+
+            <button
+              type="button"
+              onClick={handleSave}
+              className={styles["save-button"]}
+            >
+              Save Changes
+            </button>
+          </form>
+        </div>
       </div>
     </div>
   );

@@ -150,6 +150,21 @@ const HomePage = () => {
   <p>
     Explore our roadmap of interactive levels, designed to take you step-by-step through different essay styles. Each level is tailored to build your skills and confidence as a writer. Ready to start your journey?
   </p>
+          {/* <button
+            onClick={() => router.push("/level/1")}
+            className={styles["get-started-button"]}
+          >
+            Get Started
+          </button> */}
+          <div className={styles["image-container"]}>
+            <Image
+              src="/image.png"
+              alt="Welcome Illustration"
+              width={200}
+              height={100}
+              className={styles["responsive-image"]}
+            />
+          </div>
           <button
             onClick={() => router.push("/level/1")}
             className={styles["get-started-button"]}
