@@ -5,6 +5,7 @@
   height: 100vh;
   background-color: #FFFEF9;
   font-family: 'Source Serif Pro', serif;
+  flex-direction: row; /* Tetap berbaris pada layar besar */
 }
 
 .welcomeSection {
@@ -125,26 +126,24 @@
   color: #D8C2F3;
 }
 
-/* Responsiveness */
 @media (max-width: 768px) {
   .container {
-    flex-direction: column;
+    flex-direction: column; /* Atur agar konten menjadi kolom pada layar kecil */
     align-items: center;
-    justify-content: center;
-    padding: 1rem;
+    justify-content: flex-start;
   }
 
   .welcomeSection {
-    display: none;
+    width: 100%; 
+    max-width: 100%;
+    order: -1; 
+    padding: 1rem; 
   }
 
   .signupSection {
+    padding: 2rem; 
     width: 100%;
-    padding: 1rem;
-  }
-
-  .form {
-    width: 90%;
+    max-width: 100%;
   }
 
   .signupSection h1 {
@@ -159,5 +158,13 @@
 
   .welcomeMessage {
     font-size: 1rem;
+  }
+
+  .signupSection h1 {
+    font-size: 1.8rem;
+  }
+
+  .form input {
+    font-size: 0.9rem;
   }
 }

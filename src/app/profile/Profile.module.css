@@ -1,227 +1,274 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh; 
+  background-color: #FFFEFF;
+  font-family: 'Source Sans 3', sans-serif;
+  overflow: hidden; 
+}
+
+.content {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  height: 100vh; 
+  overflow: hidden; 
+  padding: 20px;
+}
+
+/* Header styles */
 .header {
-    display: flex;
-    justify-content: space-between;
+  display: flex;
+  justify-content: space-between; /* Sebarkan elemen di kedua sisi */
+  align-items: center;
+  background-color: #ffffff;
+  color: black;
+  padding: 1rem 2rem;
+  border-bottom: 1px solid #ddd; /* Garis bawah header */
+  position: relative;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+}
+
+.nav {
+  display: flex;
+  gap: 30px;
+  justify-content: center; /* Posisikan tombol di tengah */
+  flex: 1; /* Buat nav mengisi ruang di tengah */
+}
+
+.nav-button {
+  font-size: 1rem;
+  background: none;
+  border: none;
+  color: #006B49;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  position: relative;
+  padding-bottom: 8px; /* Tambahkan padding bawah untuk spasi dengan garis aktif */
+  transition: color 0.3s;
+}
+
+.nav-button:hover {
+  color: #BDDFB5;
+}
+
+.nav-button-active {
+  font-weight: bold;
+}
+
+.nav-button-active::after {
+  content: "";
+  position: absolute;
+  bottom: -11px; /* Sesuaikan posisi agar sejajar dengan garis bawah header */
+  left: 0;
+  right: 0;
+  height: 2px; /* Ketebalan garis aktif */
+  background-color: #006B49; /* Warna garis aktif */
+}
+
+.menu {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  position: absolute;
+  right: 20px; /* Pindahkan ke kanan */
+}
+
+.menu-button {
+  font-size: 1.8rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #006B49;
+}
+
+/* Dropdown menu */
+.menu-dropdown {
+  position: absolute;
+  width: 150px;
+  border-radius: 10px;
+  top: 30px;
+  right: 0;
+  background: #ffffff;
+  border: 1px solid #ddd;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  padding: 10px;
+  z-index: 1000;
+}
+
+.menu-item {
+  background: none;
+  border: none;
+  color: #ff4d4f;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.menu-item:hover {
+  color: #793737;
+}
+
+/* Profile & Form Styles */
+.profile-container {
+  max-width: 500px; /* Lebar default ditingkatkan dari 700px ke 750px */
+  width: 90%; /* Gunakan hingga 90% dari lebar layar jika memungkinkan */
+  margin: 50px auto;
+  padding: 40px;
+  background: #ffffff;
+  border-radius: 20px;
+  border: 1px solid #ddd;
+}
+
+.title {
+  font-size: 1.8rem;
+  font-weight: bold;
+  margin-bottom: 20px;
+  text-align: center;
+  color: #333;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.label {
+  font-size: 1rem;
+  font-weight: bold;
+  color: #333;
+}
+
+.input {
+  padding: 10px;
+  font-size: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 15px;
+  color: black;
+}
+
+.input:focus {
+  outline: none;
+  border-color: #006b49;
+  box-shadow: 0 0 4px rgba(0, 107, 73, 0.3);
+}
+
+.save-button,
+.back-button {
+  padding: 10px 20px;
+  font-size: 1rem;
+  font-weight: bold;
+  border: none;
+  border-radius: 15px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.save-button {
+  background: #006b49;
+  color: #fff;
+}
+
+.save-button:hover {
+  background: #004d38;
+}
+
+.back-button {
+  background: #ddd;
+  color: #333;
+}
+
+.back-button:hover {
+  background: #ccc;
+}
+
+/* Responsiveness adjustments */
+@media (max-width: 1024px) {
+  .content {
+    flex-direction: column; 
+    justify-content: flex-start;
     align-items: center;
-    background-color: #ffffff;
-    color: black;
-    padding: 1rem 2rem;
-    border-bottom: 1px solid #ddd;
-    font-family: 'Source Sans 3', sans-serif;
+    padding: 10px;
+    height: auto; 
   }
 
-  .container {
-    background-color: #ffffff; 
-    min-height: 100vh;
-    margin: 0;
-    padding: 0;
-    font-family: 'Source Sans 3', sans-serif;
+  .profile-container {
+    max-width: 95%; /* Gunakan hingga 95% lebar layar untuk layar sedang */
+    padding: 30px;
+  }
+}
+
+@media (max-width: 768px) {
+  .header {
+    flex-direction: row;
+    padding: 0.5rem 1rem;
   }
 
   .logo {
-    display: flex;
-    align-items: center;
+    display: none; /* Sembunyikan logo pada layar kecil */
   }
-  
+
+  .nav {
+    gap: 15px; 
+    justify-content: center;
+  }
+
+  .nav-button {
+    font-size: 0.9rem;
+    padding: 5px 10px;
+  }
+
+  .menu-button {
+    margin-left: auto; 
+  }
+
+  .profile-container {
+    max-width: 90%; /* Gunakan hingga 90% lebar layar untuk layar kecil */
+    padding: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .header {
+    flex-direction: column;
+    align-items: center;
+    padding: 0.5rem 1rem; 
+  }
+
+  .logo {
+    display: none; 
+  }
+
   .nav {
     display: flex;
-    gap: 30px;
-  }
-  
-  .nav-button {
-    font-size: 1rem;
-    background: none;
-    border: none;
-    color: #006b49;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
     gap: 10px;
-    position: relative;
-    transition: color 0.3s;
+    justify-content: center;
   }
-  
-  .nav-button:hover {
-    color: #bddfb5;
+
+  .nav-button {
+    font-size: 0.8rem;
+    padding: 5px 8px;
   }
-  
-  .nav-button-active {
-    font-weight: bold;
-  }
-  
-  .nav-button-active::after {
-    content: "";
-    position: absolute;
-    bottom: -21px;
-    left: 0;
-    right: 0;
-    height: 3px;
-    background-color: #006b49;
-  }
-  
-  .menu {
-    position: relative;
-  }
-  
+
   .menu-button {
     font-size: 1.5rem;
-    background: none;
-    border: none;
-    cursor: pointer;
-    color: #006B49;
+    margin-left: auto;
   }
-  
-  .menu-dropdown {
-    position: absolute;
-    width: 150px;
-    border-radius: 10px;
-    top: 30px;
-    right: 0;
-    background: #ffffff;
-    border: 1px solid #ddd;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    padding: 10px;
-    z-index: 1000;
-  }
-  
-  .menu-item {
-    background: none;
-    border: none;
-    color: #ff4d4f;
-    font-size: 1rem;
-    cursor: pointer;
-  }
-  
-  .menu-item:hover {
-    color: #793737;
-  }
-  
-  .profile-container {
-    max-width: 500px;
-    margin: 50px auto;
-    padding: 40px;
-    background: #ffffff;
-    border-radius: 20px;
-    border: 1px solid #ddd;
-    font-family: 'Source Sans 3', sans-serif;
-    background-color: #ffffff;
-  }
-  
-  .title {
-    font-size: 1.8rem;
-    font-weight: bold;
-    margin-bottom: 20px;
-    text-align: center;
-    color: #333;
 
+  .profile-container {
+    max-width: 100%; /* Gunakan seluruh lebar layar pada layar kecil */
+    padding: 15px;
   }
-  
-  .form {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-  }
-  
-  .form-group {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-  }
-  
-  .label {
-    font-size: 1rem;
-    font-weight: bold;
-    color: #333;
-  }
-  
-  .input {
-    padding: 10px;
-    font-size: 1rem;
-    border: 1px solid #ddd;
-    border-radius: 15px;
-    color: black;
-  }
-  
-  .input:focus {
-    outline: none;
-    border-color: #006b49;
-    box-shadow: 0 0 4px rgba(0, 107, 73, 0.3);
-  }
-  
-  .save-button,
-  .back-button {
-    padding: 10px 20px;
-    font-size: 1rem;
-    font-weight: bold;
-    border: none;
-    border-radius: 15px;
-    cursor: pointer;
-    margin-top: 10px;
-  }
-  
-  .save-button {
-    background: #006b49;
-    color: #fff;
-  }
-  
-  .save-button:hover {
-    background: #004d38;
-  }
-  
-  .back-button {
-    background: #ddd;
-    color: #333;
-  }
-  
-  .back-button:hover {
-    background: #ccc;
-  }
-  
-  @media (max-width: 768px) {
-    /* Navigasi di layar sedang (tablet) */
-    .nav {
-      flex-wrap: wrap; /* Bungkus tombol jika tidak cukup ruang */
-      gap: 15px; /* Kurangi jarak antar tombol */
-      justify-content: center; /* Pusatkan tombol */
-    }
-  
-    .nav-button {
-      font-size: 0.9rem; /* Perkecil tombol */
-      padding: 5px 10px; /* Sesuaikan padding */
-    }
-  }
-  
-  @media (max-width: 480px) {
-    /* Navigasi di layar kecil (ponsel) */
-    .header {
-      flex-direction: column; /* Header menjadi vertikal */
-      align-items: center;
-      padding: 10px;
-    }
-  
-    .logo {
-      display: none; /* Sembunyikan logo untuk hemat ruang */
-    }
-  
-    .nav {
-      flex-direction: column; /* Tumpuk tombol navigasi */
-      align-items: center;
-      gap: 10px; /* Kurangi jarak antar tombol */
-    }
-  
-    .menu-button {
-      margin-left: auto; /* Posisikan garis tiga di kanan atas */
-      font-size: 1.2rem;
-    }
-  
-    .nav-button {
-      font-size: 0.8rem; /* Perkecil ukuran tombol */
-      padding: 5px 8px; /* Kurangi padding */
-    }
-  
-    .menu-dropdown {
-      top: 40px;
-      right: 10px; /* Atur ulang posisi dropdown */
-      width: auto; /* Sesuaikan lebar dropdown */
-    }
-  }
-  
+}

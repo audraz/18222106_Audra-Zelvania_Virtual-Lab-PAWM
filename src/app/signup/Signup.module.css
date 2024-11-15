@@ -1,10 +1,9 @@
-@import url('https://fonts.googleapis.com/css2?family=Source+Serif+Pro:wght@400&family=Yeseva+One&display=swap');
-
 .container {
   display: flex;
   height: 100vh;
   background-color: #FFFEF9;
   font-family: 'Source Serif Pro', serif;
+  flex-direction: row; /* Tetap berbaris pada layar besar */
 }
 
 .welcomeSection {
@@ -14,11 +13,11 @@
   justify-content: center;
   align-items: center;
   background-color: #006B49;
-  padding: 1rem 2rem; /* Mengurangi padding agar lebih kompak */
+  padding: 1rem 2rem;
   color: #333;
-  text-align: center; /* Teks berada di tengah */
-  max-width: 60%; /* Mengurangi lebar maksimal untuk tampil lebih kecil */
-  margin: 0 auto; /* Tengah kan tulisan */
+  text-align: center;
+  max-width: 60%;
+  margin: 0 auto;
 }
 
 .welcomeTitle {
@@ -43,10 +42,10 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 3rem; 
-  width: 100%; 
-  max-width: 650px; 
-  margin: 0 auto; 
+  padding: 3rem;
+  width: 100%;
+  max-width: 650px;
+  margin: 0 auto;
   background-color: white;
   border-radius: 10px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
@@ -54,7 +53,7 @@
 
 .signupSection h1 {
   font-family: 'Source Sans 3', sans-serif;
-  font-weight: 700; 
+  font-weight: 700;
   font-size: 2.5rem;
   color: #000000;
   margin-bottom: 1rem;
@@ -65,7 +64,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 2rem; 
+  padding: 2rem;
   width: 100%;
 }
 
@@ -126,26 +125,26 @@
   color: #D8C2F3;
 }
 
-/* Responsiveness */
+/* Responsiveness: Layout adjustments for smaller screens */
 @media (max-width: 768px) {
   .container {
-    flex-direction: column;
+    flex-direction: column; /* Atur agar konten menjadi kolom pada layar kecil */
     align-items: center;
-    justify-content: center;
-    padding: 1rem;
+    justify-content: flex-start;
   }
 
+  /* Welcome Section menjadi bagian atas pada layar kecil */
   .welcomeSection {
-    display: none;
+    width: 100%; /* Buat welcome section lebar penuh */
+    max-width: 100%;
+    order: -1; /* Pindahkan welcomeSection ke atas */
+    padding: 1rem; /* Kurangi padding untuk menyesuaikan */
   }
 
   .signupSection {
+    padding: 2rem; /* Mengurangi padding */
     width: 100%;
-    padding: 1rem;
-  }
-
-  .form {
-    width: 90%;
+    max-width: 100%;
   }
 
   .signupSection h1 {
@@ -160,5 +159,13 @@
 
   .welcomeMessage {
     font-size: 1rem;
+  }
+
+  .signupSection h1 {
+    font-size: 1.8rem;
+  }
+
+  .form input {
+    font-size: 0.9rem;
   }
 }

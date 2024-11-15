@@ -145,11 +145,11 @@ const HomePage = () => {
         <div className={styles["welcome-card"]}>
           <h2 className={`${italiana.className}`}>Welcome, {userName}!</h2>
           <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus
-            luctus urna sed urna ultricies ac tempor dui sagittis. In
-            condimentum facilisis porta. Sed nec diam eu diam mattis viverra.
-            Nulla fringilla, orci ac euismod semper.
-          </p>
+    Discover the art of essay like never before. Whether you're a beginner or looking to refine your writing, you're in the right place!
+  </p>
+  <p>
+    Explore our roadmap of interactive levels, designed to take you step-by-step through different essay styles. Each level is tailored to build your skills and confidence as a writer. Ready to start your journey?
+  </p>
           <button
             onClick={() => router.push("/level/1")}
             className={styles["get-started-button"]}
