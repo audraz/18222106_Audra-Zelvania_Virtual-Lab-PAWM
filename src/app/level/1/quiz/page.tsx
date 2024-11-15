@@ -51,6 +51,28 @@ const QuizPage = () => {
       ],
       correct: 3,
     },
+    {
+      id: 4,
+      question: "In the body of the essay, each paragraph should focus on?",
+      options: [
+        "Arguments supporting the thesis.",
+        "Personal experiences of the writer.",
+        "Concluding the topic.",
+        "Presenting irrelevant evidence.",
+      ],
+      correct: 1,
+    },
+    {
+      id: 5,
+      question: "What should be included in the conclusion of an essay?",
+      options: [
+        "Additional evidence details",
+        "A summary of the main arguments and emphasizing the importance of the writer’s viewpoint",
+        "A repeated thesis without change",
+        "A further explanation of the background of the topic",
+      ],
+      correct: 2,
+    },
   ];  
 
   const progressIncrement = 100 / questions.length; 
@@ -201,8 +223,7 @@ const QuizPage = () => {
     setQuizCompleted(false);
 
     if (userId) {
-      // Simpan reset progress ke Firestore
-      await saveQuizProgressToFirestore(userId);
+      await saveQuizProgressToFirestore(userId); // Reset progress level 1
     }
   };
 
