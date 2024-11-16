@@ -326,36 +326,43 @@ const QuizPage = () => {
       </div>
 
       {showModal && (
-        <div className={styles["modal"]}>
-          <div className={styles["modal-content"]}>
-            <h2>Congratulations!</h2>
-            <p>Yay, you have completed Level 4!</p>
-            <p>
-              Your score: {calculateScore()} / {questions.length}
-            </p>
-            <div className={styles["modal-buttons"]}>
-              <button
-                onClick={handleReturnHome}
-                className={styles["home-button"]}
-              >
-                Back to Homepage
-              </button>
-              <button
-                onClick={() => router.push("/level/5")}
-                className={styles["next-level-button"]}
-              >
-                Go to Level 5
-              </button>
-              <button
-                onClick={resetQuiz}
-                className={styles["retry-button"]}
-              >
-                Retry Quiz
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+  <div className={styles["modal"]}>
+    <div className={styles["modal-content"]}>
+      <Image 
+        src="/popup-img.png" 
+        alt="Popup Image" 
+        width={200} 
+        height={200} 
+        className={styles["popup-image"]} 
+      />
+      <h2>Congratulations!</h2>
+      <p>Yay, you have completed Level 4!</p>
+      <p>
+        Your score: {calculateScore()} / {questions.length}
+      </p>
+      <div className={styles["modal-buttons"]}>
+        <button
+          onClick={handleReturnHome}
+          className={styles["home-button"]}
+        >
+          Back to Homepage
+        </button>
+        <button
+          onClick={() => router.push("/level/5")}
+          className={styles["next-level-button"]}
+        >
+          Go to Level 5
+        </button>
+        <button
+          onClick={resetQuiz}
+          className={styles["retry-button"]}
+        >
+          Retry Quiz
+        </button>
+      </div>
+    </div>
+  </div>
+)}
     </div>
   );
 };

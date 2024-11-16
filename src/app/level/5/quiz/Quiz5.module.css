@@ -228,3 +228,9 @@ transition: background-color 0.3s;
 .retry-button:hover {
 background-color: #9ABC92; 
 }
+
+.popup-image {
+  display: block;
+  margin: 0 auto 20px;
+  border-radius: 10px; 
+}
