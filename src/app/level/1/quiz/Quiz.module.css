@@ -234,3 +234,39 @@ background-color: #9ABC92;
   margin: 0 auto 20px;
   border-radius: 10px; 
 }
+
+/* Tambahkan media query untuk layar kecil */
+@media (max-width: 768px) {
+  .modal-content {
+    padding: 15px; /* Kurangi padding agar lebih ramping */
+    width: 90%; /* Atur lebar pop-up agar sesuai layar kecil */
+    font-size: 0.9rem; /* Sesuaikan font-size agar tidak terlalu besar */
+  }
+
+  .modal-content h2 {
+    font-size: 1.5rem; /* Kurangi ukuran judul */
+    margin-bottom: 8px; /* Kurangi margin bawah untuk judul */
+  }
+
+  .modal-content p {
+    font-size: 1rem; /* Kurangi ukuran teks deskripsi */
+  }
+
+  .popup-image {
+    width: 120px; /* Kurangi ukuran gambar pop-up */
+    height: auto; /* Pastikan gambar tetap proporsional */
+    margin-bottom: 15px; /* Kurangi margin bawah gambar */
+  }
+
+  .modal-buttons {
+    flex-direction: column; /* Susun tombol secara vertikal untuk layar kecil */
+    gap: 5px; /* Kurangi jarak antar tombol */
+  }
+
+  .next-level-button,
+  .home-button,
+  .retry-button {
+    padding: 8px 15px; /* Kurangi padding tombol agar lebih ramping */
+    font-size: 0.9rem; /* Sesuaikan ukuran font tombol */
+  }
+}
